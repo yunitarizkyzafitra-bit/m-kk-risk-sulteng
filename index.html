@@ -1,1 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</title>
+<style>
+:root{
+  --navy:#122540;
+  --navy-2:#1c3a5e;
+  --paper:#f6f3ec;
+  --paper-2:#ffffff;
+  --ink:#1b1b1b;
+  --muted:#6b6f76;
+  --line:#dcd6c7;
+  --gold:#b6842c;
+  --gold-2:#e4b356;
+  --green:#3f7a4f;
+  --amber:#c98a1f;
+  --red:#b5442e;
+  --shadow:0 1px 2px rgba(18,37,64,.06), 0 8px 24px -14px rgba(18,37,64,.25);
+  --radius:10px;
+  font-family:'Source Sans Pro',Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+body{
+  font-family:'Georgia',"Source Sans Pro",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+}
+.app{display:flex;min-height:100vh;}
 
+/* Sidebar */
+.sidebar{
+  width:270px;flex-shrink:0;background:var(--navy);color:#e9ecf1;
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.brand{padding:22px 20px 14px;border-bottom:1px solid rgba(255,255,255,.12);}
+.brand .eyebrow{font-family:'Source Sans Pro',Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;}
+.brand h1{font-family:Georgia,serif;font-size:19px;margin:6px 0 4px;line-height:1.25;font-weight:700;}
+.brand .sub{font-size:12.5px;color:#b9c2d1;}
+nav.menu{padding:10px 10px 20px;flex:1;}
+.menu-group{margin-top:14px;}
+.menu-group-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:#8a93a6;padding:6px 10px;font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;}
+.menu-item{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;color:#d7dce6;
+  padding:9px 10px;border-radius:7px;cursor:pointer;font-size:13.5px;font-family:'Source Sans Pro',Arial,sans-serif;
+}
+.menu-item:hover{background:rgba(255,255,255,.06);}
+.menu-item.active{background:var(--gold);color:#1a1200;font-weight:700;}
+.menu-item .code{
+  font-family:Georgia,serif;font-weight:700;font-size:11px;flex-shrink:0;width:26px;height:20px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.1);border-radius:4px;
+}
+.menu-item.active .code{background:rgba(0,0,0,.18);}
+.sidebar-foot{padding:14px 20px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:#8a93a6;}
+
+/* Main */
+main{flex:1;min-width:0;}
+.topbar{
+  position:sticky;top:0;z-index:5;background:var(--paper-2);border-bottom:1px solid var(--line);
+  padding:14px 34px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.topbar .crumbs{font-size:12px;color:var(--muted);letter-spacing:.02em;text-transform:uppercase;font-family:'Source Sans Pro',Arial,sans-serif;}
+.topbar h2{font-family:Georgia,serif;margin:2px 0 0;font-size:22px;}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+.btn{
+  font-family:'Source Sans Pro',Arial,sans-serif;font-size:13px;font-weight:600;border-radius:7px;border:1px solid var(--line);
+  background:#fff;color:var(--navy-2);padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+}
+.btn:hover{border-color:var(--navy-2);}
+.btn-primary{background:var(--navy);border-color:var(--navy);color:#fff;}
+.btn-primary:hover{background:var(--navy-2);}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:#1a1200;}
+.btn-gold:hover{background:var(--gold-2);}
+.btn-danger{color:var(--red);border-color:#e6c9c1;}
+.btn-danger:hover{background:#fbf0ee;}
+.btn-sm{padding:6px 10px;font-size:12px;}
+.save-pill{font-size:11.5px;color:var(--green);font-family:'Source Sans Pro',Arial,sans-serif;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .3s;}
+.save-pill.show{opacity:1;}
+
+.content{padding:26px 34px 80px;max-width:1180px;}
+.panel{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:20px;}
+.panel h3{font-family:Georgia,serif;font-size:17px;margin:0 0 4px;}
+.panel .desc{font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'Source Sans Pro',Arial,sans-serif;}
+
+/* Header info grid */
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 22px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field.full{grid-column:1/-1;}
+.field label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--navy-2);font-family:'Source Sans Pro',Arial,sans-serif;}
+.field .help{font-size:11.5px;color:var(--muted);font-family:'Source Sans Pro',Arial,sans-serif;margin-top:-2px;}
+input[type=text],input[type=number],textarea,select{
+  font-family:'Source Sans Pro',Arial,sans-serif;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;
+  background:#fdfcf9;color:var(--ink);width:100%;
+}
+textarea{resize:vertical;min-height:38px;line-height:1.4;}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold-2);outline-offset:0;border-color:var(--gold);}
+
+/* Record cards */
+.record-list{display:flex;flex-direction:column;gap:14px;}
+.group-heading{
+  font-family:Georgia,serif;font-size:14px;font-weight:700;color:var(--navy-2);margin:18px 0 4px;
+  padding-bottom:6px;border-bottom:2px solid var(--gold-2);
+}
+.group-heading:first-child{margin-top:0;}
+.record-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fffdf9;}
+.record-card summary{
+  list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;
+  font-family:'Source Sans Pro',Arial,sans-serif;
+}
+.record-card summary::-webkit-details-marker{display:none;}
+.record-card summary .idx{
+  flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.record-card summary .sum{flex:1;min-width:0;}
+.record-card summary .sum .title{font-size:13.5px;font-weight:600;color:var(--ink);}
+.record-card summary .sum .meta{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.record-card summary .chev{color:var(--muted);font-size:12px;margin-top:4px;transition:transform .15s;}
+.record-card[open] summary .chev{transform:rotate(90deg);}
+.record-card .body{padding:4px 16px 16px;border-top:1px dashed var(--line);}
+.record-fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 18px;margin-top:12px;}
+.record-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);}
+.add-row{display:flex;justify-content:center;margin-top:8px;}
+
+/* Signature Box for Print */
+.print-signature {
+  display: none;
+  margin-top: 40px;
+  float: right;
+  text-align: left;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .sidebar, .topbar, .login-overlay, .btn, .record-actions, .add-row, .logo-edit { display: none !important; }
+  .app { display: block; }
+  main { width: 100%; }
+  .content { padding: 0; max-width: 100%; }
+  .panel { border: none; box-shadow: none; padding: 0; margin-bottom: 20px; }
+  .print-signature { display: block !important; page-break-inside: avoid; }
+}
+
+.brand-row{display:flex;align-items:center;gap:12px;}
+.logo-circle{
+  width:52px;height:52px;border-radius:50%;background:#fff;border:2px solid var(--gold-2);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+.logo-circle img{width:100%;height:100%;object-fit:contain;}
+.logo-circle .mono{font-family:Georgia,serif;font-weight:700;color:var(--navy);font-size:16px;}
+.logo-edit{font-size:10.5px;color:#9aa5ba;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;margin-top:6px;font-family:'Source Sans Pro',Arial,sans-serif;}
+.logo-edit:hover{color:var(--gold-2);}
+.user-badge{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--navy-2);font-family:'Source Sans Pro',Arial,sans-serif;background:#eef1f6;border-radius:20px;padding:6px 12px 6px 6px;}
+.user-badge .av{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.user-badge b{font-weight:700;}
+.link-btn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;font-family:'Source Sans Pro',Arial,sans-serif;padding:0;}
+.link-btn:hover{color:var(--red);}
+.toggle-row{display:flex;align-items:center;gap:10px;margin:4px 0 2px;}
+.toggle{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle .slider{position:absolute;cursor:pointer;inset:0;background:#d5d0c1;border-radius:22px;transition:.2s;}
+.toggle .slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+.toggle input:checked + .slider{background:var(--gold);}
+.toggle input:checked + .slider::before{transform:translateX(18px);}
+.toggle-row label{font-size:12.5px;color:var(--muted);font-family:'Source Sans Pro',Arial,sans-serif;cursor:pointer;}
+.login-overlay{
+  position:fixed;inset:0;background:linear-gradient(135deg,var(--navy) 0%,#0c1a2e 100%);
+  display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
+}
+.login-card{background:var(--paper-2);border-radius:14px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}
+.login-head{background:var(--navy);padding:26px 28px 20px;text-align:center;color:#fff;}
+.login-head .logo-circle{margin:0 auto 12px;width:60px;height:60px;}
+.login-head .eyebrow{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;}
+.login-head h2{font-family:Georgia,serif;font-size:18px;margin:6px 0 2px;}
+.login-head .sub{font-size:11.5px;color:#b9c2d1;font-family:'Source Sans Pro',Arial,sans-serif;}
+.login-body{padding:22px 28px 28px;}
+.login-tabs{display:flex;gap:6px;margin-bottom:18px;background:#f0ede2;border-radius:8px;padding:4px;}
+.login-tab{flex:1;text-align:center;padding:8px 6px;border-radius:6px;font-size:12.5px;font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;background:none;border:none;cursor:pointer;color:var(--muted);}
+.login-tab.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.12);}
+.pin-wrap{position:relative;}
+.pin-wrap input{padding-right:38px;letter-spacing:2px;}
+.pin-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;font-family:'Source Sans Pro',Arial,sans-serif;padding:4px;}
+.pin-toggle:hover{color:var(--navy-2);}
+.login-error{background:#fbeae5;color:var(--red);border-radius:6px;padding:8px 10px;font-size:12px;margin-bottom:10px;font-family:'Source Sans Pro',Arial,sans-serif;display:none;}
+.login-error.show{display:block;}
+.login-hint{font-size:11px;color:var(--muted);margin-top:14px;text-align:center;font-family:'Source Sans Pro',Arial,sans-serif;line-height:1.5;}
+.btn-block{width:100%;justify-content:center;margin-top:6px;padding:10px 14px;}
+</style>
+</head>
+<body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-head">
+      <div class="logo-circle" id="loginLogoCircle"><span class="mono">ST</span></div>
+      <div class="eyebrow">Manajemen Risiko 2026</div>
+      <h2>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</h2>
+      <div class="sub">Pemerintah Provinsi Sulawesi Tengah</div>
+    </div>
+    <div class="login-body">
+      <div class="login-tabs">
+        <button class="login-tab active" id="tabMasuk">Masuk</button>
+        <button class="login-tab" id="tabDaftar">Daftar Akun</button>
+      </div>
+      <div class="login-error" id="loginError"></div>
+
+      <form id="formMasuk">
+        <div class="field" style="margin-bottom:12px;">
+          <label>Nama Pengguna</label>
+          <input type="text" id="loginUsername" autocomplete="username" placeholder="mis. admin">
+        </div>
+        <div class="field" style="margin-bottom:6px;">
+          <label>PIN</label>
+          <div class="pin-wrap">
+            <input type="password" id="loginPin" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="current-password">
+            <button type="button" class="pin-toggle" id="toggleLoginPin">Lihat</button>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <label class="toggle"><input type="checkbox" id="rememberToggle"><span class="slider"></span></label>
+          <label for="rememberToggle">Ingat nama pengguna di perangkat ini</label>
+        </div>
+        <button type="submit" class="btn btn-gold btn-block">Masuk</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="appRoot" style="display:none;">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-row">
+        <div class="logo-circle" id="sidebarLogoCircle"><span class="mono">ST</span></div>
+        <div>
+          <div class="eyebrow">Manajemen Risiko 2026</div>
+          <h1>M-KK Risk Sulawesi Tengah</h1>
+        </div>
+      </div>
+      <div class="sub">Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</div>
+      <button class="logo-edit" id="btnChangeLogo">Ubah logo instansi</button>
+      <input type="file" id="logoFileInput" accept="image/*" style="display:none">
+    </div>
+    <nav class="menu" id="menu"></nav>
+    <div class="sidebar-foot">Data tersimpan bersama &amp; otomatis</div>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div>
+        <div class="crumbs" id="crumb">Beranda</div>
+        <h2 id="pageTitle">Beranda</h2>
+      </div>
+      <div class="topbar-actions">
+        <span class="save-pill" id="savePill">✓ Tersimpan</span>
+        <span class="user-badge" id="userBadge"></span>
+        <button class="btn btn-gold" id="btnPrintPDF">🖨️ Cetak PDF Lengkap</button>
+        <button class="btn" id="btnExport">⬇ Ekspor ke Excel</button>
+      </div>
+    </div>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const RAW_DATA = {
+  form2b: {
+    namaPemda: "Provinsi Sulawesi Tengah",
+    tahun: "2026",
+    periode: "Periode RPJMD 2025-2029",
+    urusan: "Urusan Wajib bukan Pelayanan Dasar",
+    opd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
+    sumberData: "Rancangan Akhir Renstra Dinas Pemberdayaan Masyarakat dan Desa",
+    tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
+    sasaranStrategis: ["1. Meningkatkan Kemandirian Desa (Indeks Desa)"],
+    iku: [
+      {no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"},
+      {no:"2.", uraian:"Presentase Desa Mandiri", target:23.78, satuan:"%"},
+      {no:"3.", uraian:"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya", target:30.77, satuan:"%"}
+    ],
+    tujuanDinilai: "Penilaian risiko strategis Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah dilakukan atas tujuan strategis Meningkatkan Penataan Administrasi Pemerintahan, Kerjasama Desa dan Pemberdayaan Lembaga Kemasyarakatan Desa dan Lembaga Adat Desa.",
+    sasaranDinilai: ["Meningkatkan Kemandirian Desa (Indeks Desa)"],
+    ikuDinilai: [
+      {no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"},
+      {no:"2.", uraian:"Presentase Desa Mandiri", target:23.78, satuan:"%"},
+      {no:"3.", uraian:"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya", target:30.77, satuan:"%"}
+    ],
+    ttdTempatTanggal: "Palu, Desember 2026\nKepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
+    ttdNama: "IHSAN BASIR, S.H.,LL.M",
+    ttdPangkat: "Pembina Utama Madya",
+    ttdNip: "NIP. 197011091998031016"
+  },
+  form3: [
+    {id:1, noUrut:1, kodePernyataan:"RS-01", pernyataanRisiko:"Keterbatasan kapasitas aparatur desa dalam pengelolaan keuangan dan perencanaan pembangunan.", katRisiko:"Operasional", dampakUtama:"Penyerapan anggaran lambat dan potensi temuan audit meningkat"}
+  ],
+  form4: [
+    {id:1, kodeRisiko:"RS-01", sumberRisiko:"Internal & Eksternal", uraianSebab:"Kurangnya pelatihan berkala dan tingginya rotasi perangkat desa.", jenisSebab:"Sebab Nyata"}
+  ],
+  form5: [
+    {id:1, kodeRisiko:"RS-01", namaPengendalian:"Bimbingan teknis pengelolaan keuangan desa berkala.", jnsPengendalian:"Preventif", efektivitas:"Memadai"}
+  ],
+  form6: [
+    {id:1, kodeRisiko:"RS-01", tingkatKemungkinan:3, tingkatDampak:4, tingkatRisiko:"Tinggi"}
+  ],
+  form7: [
+    {id:1, kodeRisiko:"RS-01", opsiPenanganan:"Mitigasi", rencanaAksi:"Menyelenggarakan pelatihan terstruktur bagi seluruh aparat desa.", targetWaktu:"Triwulan III 2026"}
+  ],
+  form8: [
+    {id:1, kodeRisiko:"RS-01", indikatorKinerja:"Jumlah desa yang dilatih dan lulus evaluasi administrasi.", targetOutput:"150 Desa"}
+  ],
+  form9: [
+    {id:1, kodeRisiko:"RS-01", jadwalPelaksanaan:"Juli - September 2026", penanggungJawab:"Bidang Pemerintahan Desa"}
+  ],
+  form10: [
+    {id:1, kodeRisiko:"RS-01", statusPemantauan:"Dalam Proses", catatanHasil:"Koordinasi awal dengan Badan Diklat telah terlaksana."}
+  ]
+};
+
+const FORMS = {
+  form2b: { code:'2.b', title:'Konteks Strategis OPD', desc:'Penetapan konteks risiko strategis: tujuan, sasaran, dan IKU Renstra OPD yang dinilai risikonya.', group:'Konteks Risiko' },
+  form3:  { code:'3', title:'Identifikasi Risiko', desc:'Daftar pernyataan risiko strategis yang teridentifikasi pada OPD.', group:'Analisis Risiko' },
+  form4:  { code:'4', title:'Analisis Penyebab Risiko', desc:'Identifikasi sebab-sebab terjadinya risiko secara komprehensif.', group:'Analisis Risiko' },
+  form5:  { code:'5', title:'Identifikasi Pengendalian', desc:'Penilaian pengendalian yang sudah ada untuk memitigasi risiko.', group:'Analisis Risiko' },
+  form6:  { code:'6', title:'Besaran Risiko', desc:'Penilaian tingkat kemungkinan dan tingkat dampak risiko.', group:'Analisis Risiko' },
+  form7:  { code:'7', title:'Opsi Penanganan Risiko', desc:'Pemilihan strategi dan rencana penanganan risiko.', group:'Penanganan Risiko' },
+  form8:  { code:'8', title:'Indikator Kinerja & Target', desc:'Penetapan target output atas rencana penanganan risiko.', group:'Penanganan Risiko' },
+  form9:  { code:'9', title:'Jadwal & Penanggung Jawab', desc:'Waktu pelaksanaan dan penanggung jawab aksi penanganan.', group:'Penanganan Risiko' },
+  form10: { code:'10', title:'Pemantauan Risiko', desc:'Evaluasi berkala atas pelaksanaan penanganan risiko.', group:'Pemantauan & Evaluasi' }
+};
+
+let currentUser = "admin";
+
+// Auth & UI Event Listeners
+document.getElementById('tabMasuk').addEventListener('click', () => {
+  document.getElementById('tabMasuk').classList.add('active');
+  document.getElementById('tabDaftar').classList.remove('active');
+});
+document.getElementById('tabDaftar').addEventListener('click', () => {
+  document.getElementById('tabDaftar').classList.add('active');
+  document.getElementById('tabMasuk').classList.remove('active');
+});
+
+document.getElementById('toggleLoginPin').addEventListener('click', function() {
+  const pinInput = document.getElementById('loginPin');
+  if(pinInput.type === 'password') {
+    pinInput.type = 'text';
+    this.textContent = 'Sembunyikan';
+  } else {
+    pinInput.type = 'password';
+    this.textContent = 'Lihat';
+  }
+});
+
+document.getElementById('formMasuk').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const userVal = document.getElementById('loginUsername').value.trim();
+  if(!userVal) {
+    document.getElementById('loginError').textContent = 'Masukkan nama pengguna terlebih dahulu.';
+    document.getElementById('loginError').classList.add('show');
+    return;
+  }
+  currentUser = userVal;
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('appRoot').style.display = 'flex';
+  initApp();
+});
+
+document.getElementById('btnPrintPDF').addEventListener('click', function() {
+  window.print();
+});
+
+document.getElementById('btnChangeLogo').addEventListener('click', () => {
+  document.getElementById('logoFileInput').click();
+});
+
+document.getElementById('logoFileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const htmlLogo = `<img src="${evt.target.result}" alt="Logo">`;
+      document.getElementById('loginLogoCircle').innerHTML = htmlLogo;
+      document.getElementById('sidebarLogoCircle').innerHTML = htmlLogo;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function initApp() {
+  // Render User Badge
+  document.getElementById('userBadge').innerHTML = `<div class="av">${currentUser.charAt(0).toUpperCase()}</div><b>${currentUser}</b>`;
+
+  // Render Sidebar Menu
+  const menuEl = document.getElementById('menu');
+  let menuHtml = `<div class="menu-group"><div class="menu-group-title">Konteks Risiko</div>`;
+  menuHtml += `<button class="menu-item active" data-form="form2b"><span class="code">2.b</span>Konteks Strategis</button></div>`;
+  
+  menuHtml += `<div class="menu-group"><div class="menu-group-title">Analisis Risiko</div>`;
+  ['3','4','5','6'].forEach(k => {
+    menuHtml += `<button class="menu-item" data-form="form${k}"><span class="code">${k}</span>${FORMS['form'+k].title}</button>`;
+  });
+  menuHtml += `</div>`;
+
+  menuHtml += `<div class="menu-group"><div class="menu-group-title">Penanganan Risiko</div>`;
+  ['7','8','9'].forEach(k => {
+    menuHtml += `<button class="menu-item" data-form="form${k}"><span class="code">${k}</span>${FORMS['form'+k].title}</button>`;
+  });
+  menuHtml += `</div>`;
+
+  menuHtml += `<div class="menu-group"><div class="menu-group-title">Pemantauan &amp; Evaluasi</div>`;
+  menuHtml += `<button class="menu-item" data-form="form10"><span class="code">10</span>Pemantauan Risiko</button></div>`;
+
+  menuEl.innerHTML = menuHtml;
+
+  document.querySelectorAll('.menu-item').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      loadForm(this.getAttribute('data-form'));
+    });
+  });
+
+  loadForm('form2b');
+}
+
+function loadForm(formKey) {
+  const info = FORMS[formKey];
+  document.getElementById('crumb').textContent = info.group;
+  document.getElementById('pageTitle').textContent = info.title;
+  const container = document.getElementById('content');
+
+  if(formKey === 'form2b') {
+    const d = RAW_DATA.form2b;
+    container.innerHTML = `
+      <div class="panel">
+        <h3>${info.title}</h3>
+        <p class="desc">${info.desc}</p>
+        <div class="info-grid">
+          <div class="field"><label>Nama Pemda</label><input type="text" id="f2_pemda" value="${d.namaPemda}"></div>
+          <div class="field"><label>Tahun</label><input type="text" id="f2_tahun" value="${d.tahun}"></div>
+          <div class="field"><label>Periode</label><input type="text" id="f2_periode" value="${d.periode}"></div>
+          <div class="field"><label>Urusan</label><input type="text" id="f2_urusan" value="${d.urusan}"></div>
+          <div class="field full"><label>OPD</label><input type="text" id="f2_opd" value="${d.opd}"></div>
+          <div class="field full"><label>Tujuan Strategis</label><textarea id="f2_tujuan">${d.tujuanStrategis}</textarea></div>
+        </div>
+        
+        <div class="print-signature">
+          <div>${d.ttdTempatTanggal.replace(/\n/g, '<br>')}</div>
+          <br><br><br><br>
+          <div><b><u>${d.ttdNama}</u></b></div>
+          <div>${d.ttdPangkat}</div>
+          <div>${d.ttdNip}</div>
+        </div>
+      </div>
+    `;
+  } else {
+    // Formulir Tabel 3 s.d 10 secara dinamis
+    const records = RAW_DATA[formKey];
+    let html = `
+      <div class="panel">
+        <h3>${info.title}</h3>
+        <p class="desc">${info.desc}</p>
+        <div class="record-list" id="recordList">
+    `;
+    records.forEach((rec, idx) => {
+      html += `
+        <div class="record-card">
+          <details open>
+            <summary>
+              <div class="idx">${idx+1}</div>
+              <div class="sum">
+                <div class="title">${rec.kodePernyataan || rec.kodeRisiko || 'Data Risiko #'+(idx+1)}</div>
+                <div class="meta">${rec.pernyataanRisiko || rec.uraianSebab || rec.namaPengendalian || rec.rencanaAksi || rec.statusPemantauan || ''}</div>
+              </div>
+              <div class="chev">▶</div>
+            </summary>
+            <div class="body">
+              <div class="record-fields">
+                <div class="field full"><label>Keterangan Utama</label><input type="text" value="${rec.pernyataanRisiko || rec.uraianSebab || rec.namaPengendalian || rec.rencanaAksi || rec.statusPemantauan || ''}"></div>
+              </div>
+            </div>
+          </details>
+        </div>
+      `;
+    });
+    html += `</div></div>`;
+    container.innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
+```[cite: 2]
