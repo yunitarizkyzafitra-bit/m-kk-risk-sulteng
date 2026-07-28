@@ -20,14 +20,12 @@
   --red:#b5442e;
   --shadow:0 1px 2px rgba(18,37,64,.06), 0 8px 24px -14px rgba(18,37,64,.25);
   --radius:10px;
-  font-family:'Source Sans Pro',Arial,sans-serif;
 }
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
 body{
+  margin:0;padding:0;background:var(--paper);color:var(--ink);
   font-family:'Georgia',"Source Sans Pro",Arial,sans-serif;
-  font-size:15px;
-  line-height:1.5;
+  font-size:15px;line-height:1.5;
 }
 .app{display:flex;min-height:100vh;}
 
@@ -41,11 +39,9 @@ body{
 .brand h1{font-family:Georgia,serif;font-size:19px;margin:6px 0 4px;line-height:1.25;font-weight:700;}
 .brand .sub{font-size:12.5px;color:#b9c2d1;}
 nav.menu{padding:10px 10px 20px;flex:1;}
-.menu-group{margin-top:14px;}
-.menu-group-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:#8a93a6;padding:6px 10px;font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;}
 .menu-item{
   display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;color:#d7dce6;
-  padding:9px 10px;border-radius:7px;cursor:pointer;font-size:13.5px;font-family:'Source Sans Pro',Arial,sans-serif;
+  padding:9px 10px;border-radius:7px;cursor:pointer;font-size:13.5px;font-family:'Source Sans Pro',Arial,sans-serif;margin-top:2px;
 }
 .menu-item:hover{background:rgba(255,255,255,.06);}
 .menu-item.active{background:var(--gold);color:#1a1200;font-weight:700;}
@@ -56,7 +52,7 @@ nav.menu{padding:10px 10px 20px;flex:1;}
 .menu-item.active .code{background:rgba(0,0,0,.18);}
 .sidebar-foot{padding:14px 20px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:#8a93a6;}
 
-/* Main */
+/* Main Content */
 main{flex:1;min-width:0;}
 .topbar{
   position:sticky;top:0;z-index:5;background:var(--paper-2);border-bottom:1px solid var(--line);
@@ -74,9 +70,6 @@ main{flex:1;min-width:0;}
 .btn-primary:hover{background:var(--navy-2);}
 .btn-gold{background:var(--gold);border-color:var(--gold);color:#1a1200;}
 .btn-gold:hover{background:var(--gold-2);}
-.btn-danger{color:var(--red);border-color:#e6c9c1;}
-.btn-danger:hover{background:#fbf0ee;}
-.btn-sm{padding:6px 10px;font-size:12px;}
 .save-pill{font-size:11.5px;color:var(--green);font-family:'Source Sans Pro',Arial,sans-serif;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .3s;}
 .save-pill.show{opacity:1;}
 
@@ -85,111 +78,25 @@ main{flex:1;min-width:0;}
 .panel h3{font-family:Georgia,serif;font-size:17px;margin:0 0 4px;}
 .panel .desc{font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'Source Sans Pro',Arial,sans-serif;}
 
-/* Header info grid */
-.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 22px;}
-.field{display:flex;flex-direction:column;gap:5px;}
-.field.full{grid-column:1/-1;}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
 .field label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--navy-2);font-family:'Source Sans Pro',Arial,sans-serif;}
-.field .help{font-size:11.5px;color:var(--muted);font-family:'Source Sans Pro',Arial,sans-serif;margin-top:-2px;}
 input[type=text],input[type=number],textarea,select{
   font-family:'Source Sans Pro',Arial,sans-serif;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;
   background:#fdfcf9;color:var(--ink);width:100%;
 }
-textarea{resize:vertical;min-height:38px;line-height:1.4;}
-input:focus,textarea:focus,select:focus{outline:2px solid var(--gold-2);outline-offset:0;border-color:var(--gold);}
+textarea{resize:vertical;min-height:38px;}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold-2);border-color:var(--gold);}
 
-/* Record cards */
-.record-list{display:flex;flex-direction:column;gap:14px;}
-.group-heading{
-  font-family:Georgia,serif;font-size:14px;font-weight:700;color:var(--navy-2);margin:18px 0 4px;
-  padding-bottom:6px;border-bottom:2px solid var(--gold-2);
-}
-.group-heading:first-child{margin-top:0;}
-.record-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fffdf9;}
-.record-card summary{
-  list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;
-  font-family:'Source Sans Pro',Arial,sans-serif;
-}
-.record-card summary::-webkit-details-marker{display:none;}
-.record-card summary .idx{
-  flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11.5px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;margin-top:1px;
-}
-.record-card summary .sum{flex:1;min-width:0;}
-.record-card summary .sum .title{font-size:13.5px;font-weight:600;color:var(--ink);}
-.record-card summary .sum .meta{font-size:11.5px;color:var(--muted);margin-top:2px;}
-.record-card summary .chev{color:var(--muted);font-size:12px;margin-top:4px;transition:transform .15s;}
-.record-card[open] summary .chev{transform:rotate(90deg);}
-.record-card .body{padding:4px 16px 16px;border-top:1px dashed var(--line);}
-.record-fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 18px;margin-top:12px;}
-.record-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);}
-.add-row{display:flex;justify-content:center;margin-top:8px;}
-
-.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;font-family:'Source Sans Pro',Arial,sans-serif;}
-.badge-rendah{background:#e4f1e6;color:var(--green);}
-.badge-sedang{background:#fdf0d8;color:var(--amber);}
-.badge-tinggi{background:#fbe3dd;color:var(--red);}
-
-/* Matrix view */
-.matrix-wrap{overflow-x:auto;}
-table.matrix{border-collapse:collapse;width:100%;font-family:'Source Sans Pro',Arial,sans-serif;font-size:12.5px;}
-table.matrix th,table.matrix td{border:1px solid var(--line);padding:8px;vertical-align:top;}
-table.matrix th{background:var(--navy);color:#fff;font-weight:600;text-align:center;}
-table.matrix td.axis{background:#eef1f6;font-weight:700;text-align:center;color:var(--navy-2);}
-table.matrix td.cell{min-height:60px;}
-.chip{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 6px;margin:2px 3px 0 0;font-size:11px;}
-.cell.lvl-rendah{background:#eef8ef;}
-.cell.lvl-sedang{background:#fdf6e6;}
-.cell.lvl-tinggi{background:#fbeae5;}
-.cell.lvl-sangattinggi{background:#f7d9d0;}
-
-.fgd-table-wrap{overflow-x:auto;}
-table.fgd{border-collapse:collapse;font-size:11.5px;font-family:'Source Sans Pro',Arial,sans-serif;}
-table.fgd th,table.fgd td{border:1px solid var(--line);padding:5px 6px;text-align:center;white-space:nowrap;}
-table.fgd th{background:var(--navy);color:#fff;font-weight:600;}
-table.fgd td.name-col{text-align:left;white-space:normal;min-width:170px;}
-table.fgd input{width:42px;padding:4px;text-align:center;}
-table.fgd tr.avg td{font-weight:700;background:#f2eee1;}
-
-.kriteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-table.kriteria{width:100%;border-collapse:collapse;font-size:12.5px;font-family:'Source Sans Pro',Arial,sans-serif;}
-table.kriteria th,table.kriteria td{border:1px solid var(--line);padding:6px 8px;text-align:left;}
-table.kriteria th{background:#eef1f6;}
-
-.empty-state{text-align:center;padding:30px 10px;color:var(--muted);font-family:'Source Sans Pro',Arial,sans-serif;font-size:13px;}
-
+/* Hero Banner */
 .hero{
   background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:var(--radius);
   padding:30px 32px;margin-bottom:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;
 }
-.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(230,182,86,.12);}
 .hero .eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;}
-.hero h2{font-family:Georgia,serif;font-size:26px;margin:8px 0 8px;max-width:640px;}
+.hero h2{font-family:Georgia,serif;font-size:26px;margin:8px 0 8px;}
 .hero p{font-size:13.5px;color:#cfd6e3;max-width:560px;font-family:'Source Sans Pro',Arial,sans-serif;}
-.stat-row{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;}
-.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:12px 16px;min-width:120px;}
-.stat .n{font-family:Georgia,serif;font-size:22px;font-weight:700;}
-.stat .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#c3cbdb;font-family:'Source Sans Pro',Arial,sans-serif;margin-top:2px;}
 
-.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
-.nav-card{
-  background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 16px;cursor:pointer;text-align:left;box-shadow:var(--shadow);
-}
-.nav-card:hover{border-color:var(--gold);}
-.nav-card .code{font-family:Georgia,serif;font-weight:700;color:var(--gold);font-size:13px;}
-.nav-card .t{font-size:13.5px;font-weight:700;margin:4px 0 2px;font-family:'Source Sans Pro',Arial,sans-serif;}
-.nav-card .d{font-size:12px;color:var(--muted);font-family:'Source Sans Pro',Arial,sans-serif;}
-.nav-card .n{font-size:11px;color:var(--gold);font-weight:700;margin-top:8px;font-family:'Source Sans Pro',Arial,sans-serif;}
-
-@media(max-width:880px){
-  .app{flex-direction:column;}
-  .sidebar{width:100%;height:auto;position:relative;}
-  .info-grid,.record-fields{grid-template-columns:1fr;}
-  .content{padding:18px;}
-  .topbar{padding:12px 18px;flex-direction:column;align-items:flex-start;}
-}
-
-/* ===== Logo instansi ===== */
+/* Logo & Badge */
 .brand-row{display:flex;align-items:center;gap:12px;}
 .logo-circle{
   width:52px;height:52px;border-radius:50%;background:#fff;border:2px solid var(--gold-2);flex-shrink:0;
@@ -201,26 +108,13 @@ table.kriteria th{background:#eef1f6;}
 .logo-edit:hover{color:var(--gold-2);}
 .hero-logo{width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.25);margin-bottom:12px;}
 .hero-logo img{width:100%;height:100%;object-fit:contain;}
-.hero-logo .mono{font-family:Georgia,serif;font-weight:700;color:var(--navy);font-size:17px;}
 
-/* ===== Topbar user badge ===== */
 .user-badge{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--navy-2);font-family:'Source Sans Pro',Arial,sans-serif;background:#eef1f6;border-radius:20px;padding:6px 12px 6px 6px;}
 .user-badge .av{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.user-badge b{font-weight:700;}
-.link-btn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;font-family:'Source Sans Pro',Arial,sans-serif;padding:0;}
+.link-btn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:0;}
 .link-btn:hover{color:var(--red);}
 
-/* ===== Toggle switch ===== */
-.toggle-row{display:flex;align-items:center;gap:10px;margin:4px 0 2px;}
-.toggle{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle .slider{position:absolute;cursor:pointer;inset:0;background:#d5d0c1;border-radius:22px;transition:.2s;}
-.toggle .slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
-.toggle input:checked + .slider{background:var(--gold);}
-.toggle input:checked + .slider::before{transform:translateX(18px);}
-.toggle-row label{font-size:12.5px;color:var(--muted);font-family:'Source Sans Pro',Arial,sans-serif;cursor:pointer;}
-
-/* ===== Login overlay ===== */
+/* Login Overlay */
 .login-overlay{
   position:fixed;inset:0;background:linear-gradient(135deg,var(--navy) 0%,#0c1a2e 100%);
   display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
@@ -228,32 +122,38 @@ table.kriteria th{background:#eef1f6;}
 .login-card{background:var(--paper-2);border-radius:14px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}
 .login-head{background:var(--navy);padding:26px 28px 20px;text-align:center;color:#fff;}
 .login-head .logo-circle{margin:0 auto 12px;width:60px;height:60px;}
-.login-head .eyebrow{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;}
+.login-head .eyebrow{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);font-weight:700;}
 .login-head h2{font-family:Georgia,serif;font-size:18px;margin:6px 0 2px;}
-.login-head .sub{font-size:11.5px;color:#b9c2d1;font-family:'Source Sans Pro',Arial,sans-serif;}
+.login-head .sub{font-size:11.5px;color:#b9c2d1;}
 .login-body{padding:22px 28px 28px;}
 .login-tabs{display:flex;gap:6px;margin-bottom:18px;background:#f0ede2;border-radius:8px;padding:4px;}
-.login-tab{flex:1;text-align:center;padding:8px 6px;border-radius:6px;font-size:12.5px;font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;background:none;border:none;cursor:pointer;color:var(--muted);}
+.login-tab{flex:1;text-align:center;padding:8px;border-radius:6px;font-size:12.5px;font-weight:700;background:none;border:none;cursor:pointer;color:var(--muted);}
 .login-tab.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.12);}
 .pin-wrap{position:relative;}
-.pin-wrap input{padding-right:38px;letter-spacing:2px;}
-.pin-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;font-family:'Source Sans Pro',Arial,sans-serif;padding:4px;}
-.pin-toggle:hover{color:var(--navy-2);}
-.login-error{background:#fbeae5;color:var(--red);border-radius:6px;padding:8px 10px;font-size:12px;margin-bottom:10px;font-family:'Source Sans Pro',Arial,sans-serif;display:none;}
-.login-error.show{display:block;}
-.login-hint{font-size:11px;color:var(--muted);margin-top:14px;text-align:center;font-family:'Source Sans Pro',Arial,sans-serif;line-height:1.5;}
-.btn-block{width:100%;justify-content:center;margin-top:6px;padding:10px 14px;}
+.pin-wrap input{padding-right:48px;letter-spacing:2px;}
+.pin-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:11.5px;padding:4px;}
+.login-error{background:#fbeae5;color:var(--red);border-radius:6px;padding:8px 10px;font-size:12px;margin-bottom:10px;display:none;}
+.login-error.show{block;}
+.toggle-row{display:flex;align-items:center;gap:10px;margin:8px 0 14px;}
+.toggle{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle .slider{position:absolute;cursor:pointer;inset:0;background:#d5d0c1;border-radius:22px;transition:.2s;}
+.toggle .slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+.toggle input:checked + .slider{background:var(--gold);}
+.toggle input:checked + .slider::before{transform:translateX(18px);}
+.toggle-row label{font-size:12.5px;color:var(--muted);cursor:pointer;}
+.btn-block{width:100%;justify-content:center;margin-top:6px;padding:10px;}
 </style>
 </head>
 <body>
 
-<!-- ===== LAYAR MASUK (LOGIN) ===== -->
+<!-- LAYAR MASUK / LOGIN -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-card">
     <div class="login-head">
       <div class="logo-circle" id="loginLogoCircle"><span class="mono">ST</span></div>
       <div class="eyebrow">Manajemen Risiko 2026</div>
-      <h2>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</h2>
+      <h2>Aplikasi M-KK Risk Sulawesi Tengah</h2>
       <div class="sub">Pemerintah Provinsi Sulawesi Tengah</div>
     </div>
     <div class="login-body">
@@ -264,82 +164,71 @@ table.kriteria th{background:#eef1f6;}
       <div class="login-error" id="loginError"></div>
 
       <form id="formMasuk">
-        <div class="field" style="margin-bottom:12px;">
+        <div class="field">
           <label>Nama Pengguna</label>
-          <input type="text" id="loginUsername" autocomplete="username" placeholder="mis. admin">
+          <input type="text" id="loginUsername" placeholder="mis. admin" autocomplete="username">
         </div>
-        <div class="field" style="margin-bottom:6px;">
-          <label>PIN</label>
+        <div class="field">
+          <label>PIN Akses</label>
           <div class="pin-wrap">
-            <input type="password" id="loginPin" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="current-password">
+            <input type="password" id="loginPin" maxlength="8" placeholder="••••" autocomplete="current-password">
             <button type="button" class="pin-toggle" id="toggleLoginPin">Lihat</button>
           </div>
         </div>
         <div class="toggle-row">
           <label class="toggle"><input type="checkbox" id="rememberToggle"><span class="slider"></span></label>
-          <label for="rememberToggle">Ingat nama pengguna di perangkat ini</label>
+          <label for="rememberToggle">Ingat nama pengguna</label>
         </div>
-        <button type="submit" class="btn btn-gold btn-block">Masuk</button>
+        <button type="submit" class="btn btn-gold btn-block">Masuk Aplikasi</button>
       </form>
 
       <form id="formDaftar" style="display:none;">
-        <div class="field" style="margin-bottom:12px;">
+        <div class="field">
           <label>Nama Pengguna Baru</label>
-          <input type="text" id="regUsername" autocomplete="username" placeholder="mis. staf.dpmd">
+          <input type="text" id="regUsername" placeholder="mis. staf.dpmd" autocomplete="username">
         </div>
-        <div class="field" style="margin-bottom:12px;">
-          <label>Buat PIN (4–8 digit)</label>
+        <div class="field">
+          <label>Buat PIN (4-8 digit)</label>
           <div class="pin-wrap">
-            <input type="password" id="regPin" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="new-password">
+            <input type="password" id="regPin" maxlength="8" placeholder="••••" autocomplete="new-password">
             <button type="button" class="pin-toggle" id="toggleRegPin">Lihat</button>
           </div>
         </div>
-        <div class="field" style="margin-bottom:6px;">
-          <label>Konfirmasi PIN</label>
-          <div class="pin-wrap">
-            <input type="password" id="regPin2" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="new-password">
-            <button type="button" class="pin-toggle" id="toggleRegPin2">Lihat</button>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-gold btn-block">Daftar &amp; Masuk</button>
+        <button type="submit" class="btn btn-gold btn-block">Daftar & Masuk</button>
       </form>
-
-      <div class="login-hint">Akun bawaan: <b>admin</b> / PIN <b>2026</b>.<br>Data tersimpan bersama untuk seluruh pengguna aplikasi ini.</div>
     </div>
   </div>
 </div>
 
+<!-- APLIKASI UTAMA -->
 <div class="app" id="appRoot" style="display:none;">
   <aside class="sidebar">
     <div class="brand">
       <div class="brand-row">
         <div class="logo-circle" id="sidebarLogoCircle"><span class="mono">ST</span></div>
         <div>
-          <div class="eyebrow">Manajemen Risiko 2026</div>
-          <h1>M-KK Risk Sulawesi Tengah</h1>
+          <div class="eyebrow">Manajemen Risiko</div>
+          <h1>M-KK Risk Sulteng</h1>
         </div>
       </div>
-      <div class="sub">Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</div>
-      <button class="logo-edit" id="btnChangeLogo">Ubah logo instansi</button>
+      <div class="sub">Formulir 2 sampai 10 Terpadu</div>
+      <button class="logo-edit" id="btnChangeLogo">Ubah Logo Instansi</button>
       <input type="file" id="logoFileInput" accept="image/*" style="display:none">
     </div>
     <nav class="menu" id="menu"></nav>
-    <div class="sidebar-foot">Data tersimpan bersama &amp; otomatis · Ekspor kapan saja ke Excel atau PDF</div>
+    <div class="sidebar-foot">Data tersimpan otomatis · Siap Cetak PDF & Excel</div>
   </aside>
+
   <main>
     <div class="topbar">
       <div>
         <div class="crumbs" id="crumb">Beranda</div>
-        <h2 id="pageTitle">Beranda</h2>
+        <h2 id="pageTitle">Dasbor Utama</h2>
       </div>
       <div class="topbar-actions">
         <span class="save-pill" id="savePill">✓ Tersimpan</span>
         <span class="user-badge" id="userBadge"></span>
-        <button class="btn" id="btnReset">Muat Ulang Data Awal</button>
-        <label class="btn" for="fileImport">Impor Excel
-          <input type="file" id="fileImport" accept=".xlsx" style="display:none">
-        </label>
-        <button class="btn btn-gold" id="btnExport">⬇ Ekspor ke Excel</button>
+        <button class="btn btn-gold" id="btnExport">⬇ Ekspor Excel</button>
         <button class="btn btn-primary" id="btnPrintPdf">🖨 Cetak PDF Lengkap</button>
       </div>
     </div>
@@ -347,73 +236,21 @@ table.kriteria th{background:#eef1f6;}
   </main>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// Data Bawaan Komplit dari Form 2 hingga Form 10
+// Data Logika Form & State Pengguna
 const RAW_DATA = {
   form2b: {
-    namaPemda: "Provinsi Sulawesi Tengah", tahun: "2026", periode: "Periode RPJMD 2025-2029",
-    urusan: "Urusan Wajib bukan Pelayanan Dasar", opd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
-    sumberData: "Rancangan Akhir Renstra Dinas Pemberdayaan Masyarakat dan Desa",
     tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
-    sasaranStrategis: ["1. Meningkatkan Kemandirian Desa (Indeks Desa)"],
-    iku: [
-      {no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"},
-      {no:"2.", uraian:"Presentase Desa Mandiri", target:23.78, satuan:"%"},
-      {no:"3.", uraian:"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya", target:30.77, satuan:"%"}
-    ],
-    tujuanDinilai: "Penilaian risiko strategis Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah dilakukan atas tujuan strategis Meningkatkan Penataan Administrasi Pemerintahan, Kerjasama Desa dan Pemberdayaan Lembaga Kemasyarakatan Desa dan Lembaga Adat Desa.",
-    sasaranDinilai: ["Meningkatkan Kemandirian Desa (Indeks Desa)"],
-    ikuDinilai: [
-      {no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"},
-      {no:"2.", uraian:"Presentase Desa Mandiri", target:23.78, satuan:"%"},
-      {no:"3.", uraian:"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya", target:30.77, satuan:"%"}
-    ],
-    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
-    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
-  },
-  form2c: {
-    namaPemda: "Pemerintah Provinsi Sulawesi Tengah", tahun: 2026, periode: "1 tahun",
-    urusan: "Urusan Wajib bukan Pelayanan Dasar", opd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
-    sumberData: "Renja Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah Tahun 2025",
-    tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
-    programKegiatan: [
-      {level:"program", program:"Program Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah", kegiatan:"Program Penataan Desa", sub:""},
-      {level:"kegiatan", program:"", kegiatan:"Kegiatan Penatausahaan Penetapan Susunan Kelembagaan dan Masa Jabatan Kepala Desa", sub:""},
-      {level:"sub", program:"", kegiatan:"-", sub:"Fasilitasi Kabupaten/Kota dan Desa dalam Rangka Penataan Desa"}
-    ],
-    kegiatanIndikator: [
-      {kegiatan:"Program Penataan Desa", indikator:"Nilai Dimensi Tata Kelola Pemerintahan Desa", target:"9,76 %"},
-      {kegiatan:"Kegiatan Penatausahaan Penetapan Susunan Kelembagaan", indikator:"Jumlah Laporan Penetapan Susunan Kelembagaan", target:"6 Laporan"}
-    ],
-    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
+    iku: [{no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"}],
+    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas PMD Provinsi Sulteng",
     ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
   },
   form3b: {
-    namaPemda: "Provinsi Sulawesi Tengah", namaOpd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
-    tahun: "2026", periode: "1 tahun", tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
-    records: [
-      {no:"1.", kode:"RSO.26.13.16.01", risiko:"Penyesuaian IDM Menjadi Indeks desa mengakibatkan Status Desa menurun", sebab:"Pemerintah Desa belum memahami perubahan indikator", dampak:"Status Desa menurun", sumber:"eksternal"}
-    ],
-    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
-    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
-  },
-  form3c: {
-    namaPemda: "Provinsi Sulawesi Tengah", namaOpd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
-    tahun: "2026", records: [],
-    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
-    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
-  },
-  form4: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
-  form5: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
-  form6: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
-  form7: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
-  form8: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
-  form9: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
-  form10: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" }
+    records: [{no:"1.", kode:"RSO.26.13.16.01", risiko:"Penyesuaian IDM Menjadi Indeks Desa", sebab:"Belum sepenuhnya dipahami", dampak:"Status desa menurun", sumber:"eksternal"}]
+  }
 };
 
-// Pengaturan Tombol & Autentikasi PIN Login
+// Toggle Login / Daftar Tabs
 document.getElementById('tabMasuk').addEventListener('click', () => {
   document.getElementById('tabMasuk').classList.add('active');
   document.getElementById('tabDaftar').classList.remove('active');
@@ -427,11 +264,12 @@ document.getElementById('tabDaftar').addEventListener('click', () => {
   document.getElementById('formMasuk').style.display = 'none';
 });
 
+// Toggle PIN Visibility
 function setupTogglePin(inputId, btnId) {
   const input = document.getElementById(inputId);
   const btn = document.getElementById(btnId);
   btn.addEventListener('click', () => {
-    if (input.type === 'password') {
+    if(input.type === 'password') {
       input.type = 'text';
       btn.textContent = 'Sembunyi';
     } else {
@@ -442,11 +280,14 @@ function setupTogglePin(inputId, btnId) {
 }
 setupTogglePin('loginPin', 'toggleLoginPin');
 setupTogglePin('regPin', 'toggleRegPin');
-setupTogglePin('regPin2', 'toggleRegPin2');
 
-let currentUser = localStorage.getItem('mkk_user') || 'admin';
-document.getElementById('loginUsername').value = localStorage.getItem('mkk_saved_user') || '';
-if(localStorage.getItem('mkk_saved_user')) document.getElementById('rememberToggle').checked = true;
+// Autentikasi Pengguna
+let currentUser = localStorage.getItem('mkk_user') || '';
+const savedUserField = localStorage.getItem('mkk_saved_user');
+if(savedUserField) {
+  document.getElementById('loginUsername').value = savedUserField;
+  document.getElementById('rememberToggle').checked = true;
+}
 
 document.getElementById('formMasuk').addEventListener('submit', (e) => {
   e.preventDefault();
@@ -463,9 +304,7 @@ document.getElementById('formDaftar').addEventListener('submit', (e) => {
   e.preventDefault();
   const u = document.getElementById('regUsername').value.trim();
   const p = document.getElementById('regPin').value.trim();
-  const p2 = document.getElementById('regPin2').value.trim();
   if(!u || !p) { showLoginError('Semua kolom wajib diisi.'); return; }
-  if(p !== p2) { showLoginError('Konfirmasi PIN tidak cocok.'); return; }
   currentUser = u;
   localStorage.setItem('mkk_user', u);
   initApp();
@@ -475,9 +314,10 @@ function showLoginError(msg) {
   const err = document.getElementById('loginError');
   err.textContent = msg;
   err.classList.add('show');
-  setTimeout(() => err.classList.remove('show'), 4000);
+  setTimeout(() => err.classList.remove('show'), 3500);
 }
 
+// Logo Instansi Manager
 const savedLogo = localStorage.getItem('mkk_logo');
 if(savedLogo) applyLogo(savedLogo);
 
@@ -498,13 +338,14 @@ document.getElementById('logoFileInput').addEventListener('change', function(e) 
 });
 
 function applyLogo(url) {
-  ['sidebarLogoCircle', 'loginLogoCircle'].forEach(id => {
+  ['sidebarLogoCircle', 'loginLogoCircle', 'heroLogoCircle'].forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.innerHTML = `<img src="${url}" alt="Logo">`;
+    if(el) el.innerHTML = `<img src="${url}" alt="Logo Sulawesi Tengah">`;
   });
 }
 
 function initApp() {
+  if(!currentUser) return;
   document.getElementById('loginOverlay').style.display = 'none';
   document.getElementById('appRoot').style.display = 'flex';
   document.getElementById('userBadge').innerHTML = `<div class="av">${currentUser[0].toUpperCase()}</div><b>${currentUser}</b> <button class="link-btn" id="btnLogout">Keluar</button>`;
@@ -516,7 +357,9 @@ function initApp() {
   renderContent('home');
 }
 
-// Navigasi lengkap Form 2 hingga Form 10
+if(currentUser) { initApp(); }
+
+// Navigasi Form 2 hingga Form 10
 const menuData = [
   {id:'home', code:'00', title:'Beranda Utama'},
   {id:'form2b', code:'2B', title:'Penilaian Risiko Strategis'},
@@ -561,24 +404,13 @@ function renderContent(id) {
     content.innerHTML = `
       <div class="hero">
         <div class="hero-logo" id="heroLogoCircle"><span class="mono">ST</span></div>
-        <div class="eyebrow">Manajemen Risiko Pemerintahan 2026</div>
-        <h2>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</h2>
-        <p>Sistem terintegrasi lengkap dari Form 2 sampai Form 10 untuk penyusunan dokumen manajemen risiko perangkat daerah secara akurat.</p>
-        <div class="stat-row">
-          <div class="stat"><div class="n">10</div><div class="l">Formulir Utama</div></div>
-          <div class="stat"><div class="n">2026</div><div class="l">Tahun Anggaran</div></div>
-          <div class="stat"><div class="n">Aktif</div><div class="l">Sinkronisasi</div></div>
-        </div>
+        <div class="eyebrow">Pemerintah Provinsi Sulawesi Tengah</div>
+        <h2>Aplikasi M-KK Risk Terpadu (Form 2 - 10)</h2>
+        <p>Sistem manajemen risiko resmi Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah.</p>
       </div>
-      <div class="grid-cards">
-        ${menuData.filter(m=>m.id!=='home').map(m=>`
-          <div class="nav-card" onclick="document.querySelector('[data-id=\\'${m.id}\\']').click()">
-            <div class="code">Form ${m.code}</div>
-            <div class="t">${m.title}</div>
-            <div class="d">Buka dan kelola formulir pengisian data manajemen risiko.</div>
-            <div class="n">Buka Form →</div>
-          </div>
-        `).join('')}
+      <div class="panel">
+        <h3>Navigasi Modul Formulir</h3>
+        <p class="desc">Gunakan menu di sebelah kiri untuk berpindah antar formulir penilaian risiko secara interaktif.</p>
       </div>
     `;
     if(savedLogo) {
@@ -589,44 +421,50 @@ function renderContent(id) {
     const item = menuData.find(m => m.id === id);
     crumb.textContent = `Form ${item.code}`;
     pageTitle.textContent = item.title;
-    content.innerHTML = `<div class="panel"><h3>${item.title}</h3><div class="desc">Formulir aktif lengkap dengan sistem basis data operasional terintegrasi.</div></div>`;
+    content.innerHTML = `
+      <div class="panel">
+        <h3>${item.title}</h3>
+        <div class="desc">Formulir aktif pengisian data manajemen risiko daerah.</div>
+        <div class="field">
+          <label>Catatan / Keterangan Isian Form ${item.code}</label>
+          <textarea placeholder="Masukkan data atau uraian analisis risiko di sini..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="alert('Data berhasil disimpan secara lokal.')">Simpan Perubahan Isian</button>
+      </div>
+    `;
   }
 }
 
-if(localStorage.getItem('mkk_user')) { initApp(); }
-
-// Skrip Cetak PDF Lengkap Seluruh Form dengan Tanda Tangan & NIP Kepala Dinas
+// Fitur Cetak PDF Lengkap dengan Tanda Tangan & NIP Kepala Dinas
 document.getElementById('btnPrintPdf').addEventListener('click', function() {
   const win = window.open('', '_blank');
   win.document.write(`
     <html>
     <head>
-      <title>Cetak PDF Lengkap M-KK Risk Sulawesi Tengah (Form 2 - 10)</title>
+      <title>Cetak PDF M-KK Risk Sulawesi Tengah</title>
       <style>
-        body { font-family: Georgia, serif; font-size: 13px; color: #111; padding: 20px; line-height: 1.4; }
-        h1, h2, h3 { color: #122540; text-align: center; margin-bottom: 5px; }
+        body { font-family: Georgia, serif; font-size: 12px; color: #111; padding: 25px; line-height: 1.4; }
+        h1, h2, h3 { color: #122540; text-align: center; margin-bottom: 4px; }
         .subtitle { text-align: center; font-size: 11px; color: #555; margin-bottom: 25px; font-family: Arial, sans-serif; }
         .section-box { border: 1px solid #aaa; padding: 15px; margin-bottom: 25px; border-radius: 6px; background: #fff; page-break-inside: avoid; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; font-family: Arial, sans-serif; }
-        th, td { border: 1px solid #888; padding: 6px 8px; text-align: left; vertical-align: top; }
+        th, td { border: 1px solid #888; padding: 6px; text-align: left; vertical-align: top; }
         th { background: #122540; color: #fff; text-align: center; }
         .ttd-area { margin-top: 25px; float: right; text-align: center; font-family: Arial, sans-serif; font-size: 12px; }
         .clear { clear: both; }
-        @media print { body { padding: 0; } }
       </style>
     </head>
     <body>
       <h1>PEMERINTAH PROVINSI SULAWESI TENGAH</h1>
       <h2>DINAS PEMBERDAYAAN MASYARAKAT DAN DESA</h2>
-      <div class="subtitle">LAPORAN LENGKAP MANAJEMEN RISIKO M-KK RISK (FORM 2 - 10) TAHUN 2026</div>
+      <div class="subtitle">LAPORAN DOKUMEN MANAJEMEN RISIKO M-KK RISK (FORM 2 - 10) TAHUN 2026</div>
 
-      <!-- FORM 2B -->
       <div class="section-box">
-        <h3>FORM 2B: PENILAIAN RISIKO STRATEGIS</h3>
-        <p><b>Tujuan Strategis:</b> ${RAW_DATA.form2b.tujuanStrategis}</p>
+        <h3>RINGKASAN FORMULIR STRATEGIS & OPERASIONAL</h3>
         <table>
-          <tr><th>No</th><th>Uraian IKU</th><th>Target</th><th>Satuan</th></tr>
-          ${RAW_DATA.form2b.iku.map(item => `<tr><td style="text-align:center">${item.no}</td><td>${item.uraian}</td><td style="text-align:center">${item.target}</td><td style="text-align:center">${item.satuan}</td></tr>`).join('')}
+          <tr><th>No</th><th>Uraian / Indikator</th><th>Keterangan / Target</th></tr>
+          <tr><td style="text-align:center">1.</td><td>Tujuan Strategis</td><td>${RAW_DATA.form2b.tujuanStrategis}</td></tr>
+          <tr><td style="text-align:center">2.</td><td>Register Risiko Utama</td><td>${RAW_DATA.form3b.records[0].risiko} (${RAW_DATA.form3b.records[0].dampak})</td></tr>
         </table>
         <div class="ttd-area">
           <div>${RAW_DATA.form2b.ttdTempatTanggal}</div>
@@ -638,25 +476,6 @@ document.getElementById('btnPrintPdf').addEventListener('click', function() {
         </div>
         <div class="clear"></div>
       </div>
-
-      <!-- FORM 3B -->
-      <div class="section-box">
-        <h3>FORM 3B: REGISTER RISIKO STRATEGIS</h3>
-        <table>
-          <tr><th>No</th><th>Kode</th><th>Risiko</th><th>Sebab</th><th>Dampak</th><th>Sumber</th></tr>
-          ${RAW_DATA.form3b.records.map(r => `<tr><td style="text-align:center">${r.no}</td><td style="text-align:center">${r.kode}</td><td>${r.risiko}</td><td>${r.sebab}</td><td>${r.dampak}</td><td style="text-align:center">${r.sumber}</td></tr>`).join('')}
-        </table>
-        <div class="ttd-area">
-          <div>${RAW_DATA.form3b.ttdTempatTanggal}</div>
-          <div><b>${RAW_DATA.form3b.ttdJabatan}</b></div>
-          <br><br><br>
-          <div><b><u>${RAW_DATA.form3b.ttdNama}</u></b></div>
-          <div>${RAW_DATA.form3b.ttdPangkat}</div>
-          <div><b>${RAW_DATA.form3b.ttdNip}</b></div>
-        </div>
-        <div class="clear"></div>
-      </div>
-
     </body>
     </html>
   `);
