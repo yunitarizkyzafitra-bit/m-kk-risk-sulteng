@@ -1,488 +1,986 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah (Form 2 - 10)</title>
-<style>
-:root{
-  --navy:#122540;
-  --navy-2:#1c3a5e;
-  --paper:#f6f3ec;
-  --paper-2:#ffffff;
-  --ink:#1b1b1b;
-  --muted:#6b6f76;
-  --line:#dcd6c7;
-  --gold:#b6842c;
-  --gold-2:#e4b356;
-  --green:#3f7a4f;
-  --amber:#c98a1f;
-  --red:#b5442e;
-  --shadow:0 1px 2px rgba(18,37,64,.06), 0 8px 24px -14px rgba(18,37,64,.25);
-  --radius:10px;
-}
-*{box-sizing:border-box;}
-body{
-  margin:0;padding:0;background:var(--paper);color:var(--ink);
-  font-family:'Georgia',"Source Sans Pro",Arial,sans-serif;
-  font-size:15px;line-height:1.5;
-}
-.app{display:flex;min-height:100vh;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah 2026</title>
+  <!-- Pustaka SheetJS untuk Ekspor Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --primary: #1b5e20;
+      --primary-dark: #0d3811;
+      --accent: #ff8f00;
+      --bg: #f4f6f5;
+      --surface: #ffffff;
+      --text: #2c3e50;
+      --muted: #7f8c8d;
+      --border: #dcdde1;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* Overlay Login PIN */
+    .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(5px); }
+    .login-card { background: var(--surface); width: 100%; max-width: 400px; padding: 30px; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .login-logo { width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; margin: 0 auto 15px; overflow: hidden; }
+    .login-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .login-title { text-align: center; font-size: 18px; font-weight: 700; color: var(--primary-dark); margin-bottom: 5px; }
+    .login-subtitle { text-align: center; font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
+    .auth-tab { flex: 1; text-align: center; padding: 10px; font-weight: 600; font-size: 14px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: 0.3s; }
+    .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    
+    /* Layout Utama */
+    .app-root { display: flex; flex: 1; height: 100vh; overflow: hidden; }
+    aside { width: 280px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; }
+    .brand { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); background: #fafbfc; }
+    .brand-logo { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden; }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-text h1 { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
+    .brand-text p { font-size: 10px; color: var(--muted); }
+    
+    .menu { flex: 1; overflow-y: auto; padding: 15px 10px; }
+    .menu-group { margin-bottom: 15px; }
+    .menu-group-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); padding: 5px 10px; font-weight: 700; }
+    .menu-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border: none; background: transparent; text-align: left; border-radius: 6px; font-size: 13px; color: var(--text); cursor: pointer; transition: 0.2s; font-weight: 500; }
+    .menu-item:hover { background: rgba(27,94,32,0.06); color: var(--primary); }
+    .menu-item.active { background: var(--primary); color: white; font-weight: 600; }
+    .menu-item .code { font-family: monospace; background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+    .menu-item.active .code { background: rgba(255,255,255,0.2); color: white; }
 
-/* Sidebar */
-.sidebar{
-  width:270px;flex-shrink:0;background:var(--navy);color:#e9ecf1;
-  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
-}
-.brand{padding:22px 20px 14px;border-bottom:1px solid rgba(255,255,255,.12);}
-.brand .eyebrow{font-family:'Source Sans Pro',Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;}
-.brand h1{font-family:Georgia,serif;font-size:19px;margin:6px 0 4px;line-height:1.25;font-weight:700;}
-.brand .sub{font-size:12.5px;color:#b9c2d1;}
-nav.menu{padding:10px 10px 20px;flex:1;}
-.menu-item{
-  display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;color:#d7dce6;
-  padding:9px 10px;border-radius:7px;cursor:pointer;font-size:13.5px;font-family:'Source Sans Pro',Arial,sans-serif;margin-top:2px;
-}
-.menu-item:hover{background:rgba(255,255,255,.06);}
-.menu-item.active{background:var(--gold);color:#1a1200;font-weight:700;}
-.menu-item .code{
-  font-family:Georgia,serif;font-weight:700;font-size:11px;flex-shrink:0;width:26px;height:20px;display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.1);border-radius:4px;
-}
-.menu-item.active .code{background:rgba(0,0,0,.18);}
-.sidebar-foot{padding:14px 20px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:#8a93a6;}
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+    header.topbar { height: 60px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 25px; z-index: 5; }
+    .breadcrumb { font-size: 12px; color: var(--muted); }
+    .page-title { font-size: 16px; font-weight: 700; color: var(--primary-dark); }
+    .topbar-right { display: flex; align-items: center; gap: 15px; }
+    
+    .content-area { flex: 1; overflow-y: auto; padding: 25px; }
+    
+    /* Panel & Kartu Form */
+    .panel { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .panel h3 { font-size: 15px; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
+    .panel .desc { font-size: 12px; color: var(--muted); margin-bottom: 15px; }
+    
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+    .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 12px; font-weight: 600; color: var(--text); }
+    .field input, .field textarea, .field select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; transition: 0.2s; width: 100%; }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(27,94,32,0.1); }
+    .field .help { font-size: 11px; color: var(--muted); }
 
-/* Main Content */
-main{flex:1;min-width:0;}
-.topbar{
-  position:sticky;top:0;z-index:5;background:var(--paper-2);border-bottom:1px solid var(--line);
-  padding:14px 34px;display:flex;align-items:center;justify-content:space-between;gap:16px;
-}
-.topbar .crumbs{font-size:12px;color:var(--muted);letter-spacing:.02em;text-transform:uppercase;font-family:'Source Sans Pro',Arial,sans-serif;}
-.topbar h2{font-family:Georgia,serif;margin:2px 0 0;font-size:22px;}
-.topbar-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
-.btn{
-  font-family:'Source Sans Pro',Arial,sans-serif;font-size:13px;font-weight:600;border-radius:7px;border:1px solid var(--line);
-  background:#fff;color:var(--navy-2);padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
-}
-.btn:hover{border-color:var(--navy-2);}
-.btn-primary{background:var(--navy);border-color:var(--navy);color:#fff;}
-.btn-primary:hover{background:var(--navy-2);}
-.btn-gold{background:var(--gold);border-color:var(--gold);color:#1a1200;}
-.btn-gold:hover{background:var(--gold-2);}
-.save-pill{font-size:11.5px;color:var(--green);font-family:'Source Sans Pro',Arial,sans-serif;display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .3s;}
-.save-pill.show{opacity:1;}
+    /* Record List / Tabel Interaktif */
+    .record-list { display: flex; flex-direction: column; gap: 10px; }
+    .record-card { background: #fafbfc; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: 0.2s; }
+    .record-card:hover { border-color: var(--primary); }
+    .record-card summary { padding: 12px 15px; display: flex; align-items: center; gap: 15px; cursor: pointer; background: #fff; font-weight: 600; font-size: 13px; user-select: none; }
+    .record-card summary .idx { background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+    .record-card summary .sum { flex: 1; display: flex; justify-content: space-between; align-items: center; }
+    .record-card summary .sum .title { color: var(--text); }
+    .record-card summary .sum .meta { font-size: 11px; color: var(--muted); font-weight: normal; }
+    .record-card summary .chev { font-size: 10px; color: var(--muted); transition: 0.2s; }
+    .record-card[open] summary .chev { transform: rotate(90deg); }
+    .record-card .body { padding: 15px; border-top: 1px solid var(--border); background: #fafbfc; }
+    .record-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .record-actions { display: flex; justify-content: flex-end; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }
 
-.content{padding:26px 34px 80px;max-width:1180px;}
-.panel{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:20px;}
-.panel h3{font-family:Georgia,serif;font-size:17px;margin:0 0 4px;}
-.panel .desc{font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'Source Sans Pro',Arial,sans-serif;}
+    /* Tombol & Utilitas */
+    .btn { padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-danger { background: #c0392b; color: white; }
+    .btn-danger:hover { background: #962d22; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: #f0f2f1; }
+    .btn-sm { padding: 5px 10px; font-size: 11px; }
+    
+    .add-row { margin-top: 15px; display: flex; justify-content: center; }
+    .empty-state { text-align: center; padding: 30px; color: var(--muted); font-size: 13px; background: #fafbfc; border-radius: 6px; border: 1px dashed var(--border); }
 
-.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-.field label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--navy-2);font-family:'Source Sans Pro',Arial,sans-serif;}
-input[type=text],input[type=number],textarea,select{
-  font-family:'Source Sans Pro',Arial,sans-serif;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;
-  background:#fdfcf9;color:var(--ink);width:100%;
-}
-textarea{resize:vertical;min-height:38px;}
-input:focus,textarea:focus,select:focus{outline:2px solid var(--gold-2);border-color:var(--gold);}
+    /* Tampilan Matriks & FGD */
+    .matrix-wrap { overflow-x: auto; }
+    table.matrix { width: 100%; border-collapse: collapse; font-size: 12px; text-align: center; }
+    table.matrix th, table.matrix td { border: 1px solid var(--border); padding: 10px; }
+    table.matrix th { background: #f0f2f1; font-weight: 700; color: var(--primary-dark); }
+    table.matrix td.axis { background: #f0f2f1; font-weight: 600; text-align: left; }
+    .cell.lvl-rendah { background: #e8f5e9; }
+    .cell.lvl-sedang { background: #fff8e1; }
+    .cell.lvl-tinggi { background: #ffe0b2; }
+    .cell.lvl-sangattinggi { background: #ffebee; }
+    .chip { display: inline-block; background: white; border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; font-size: 11px; margin: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 
-/* Hero Banner */
-.hero{
-  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:var(--radius);
-  padding:30px 32px;margin-bottom:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;
-}
-.hero .eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);font-weight:700;font-family:'Source Sans Pro',Arial,sans-serif;}
-.hero h2{font-family:Georgia,serif;font-size:26px;margin:8px 0 8px;}
-.hero p{font-size:13.5px;color:#cfd6e3;max-width:560px;font-family:'Source Sans Pro',Arial,sans-serif;}
+    .fgd-table-wrap { overflow-x: auto; }
+    table.fgd { width: 100%; border-collapse: collapse; font-size: 12px; }
+    table.fgd th, table.fgd td { border: 1px solid var(--border); padding: 8px 12px; text-align: center; }
+    table.fgd th { background: #f0f2f1; font-weight: 700; color: var(--primary-dark); }
+    table.fgd td.name-col { text-align: left; font-weight: 600; }
+    table.fgd input { width: 50px; text-align: center; padding: 4px; border: 1px solid var(--border); border-radius: 4px; }
 
-/* Logo & Badge */
-.brand-row{display:flex;align-items:center;gap:12px;}
-.logo-circle{
-  width:52px;height:52px;border-radius:50%;background:#fff;border:2px solid var(--gold-2);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.25);
-}
-.logo-circle img{width:100%;height:100%;object-fit:contain;}
-.logo-circle .mono{font-family:Georgia,serif;font-weight:700;color:var(--navy);font-size:16px;}
-.logo-edit{font-size:10.5px;color:#9aa5ba;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;margin-top:6px;font-family:'Source Sans Pro',Arial,sans-serif;}
-.logo-edit:hover{color:var(--gold-2);}
-.hero-logo{width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.25);margin-bottom:12px;}
-.hero-logo img{width:100%;height:100%;object-fit:contain;}
+    /* Hero Beranda */
+    .hero { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; padding: 40px; border-radius: var(--radius); margin-bottom: 25px; box-shadow: 0 4px 15px rgba(27,94,32,0.2); }
+    .hero-logo { width: 70px; height: 70px; background: white; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 15px; overflow: hidden; }
+    .hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 700; margin-bottom: 5px; }
+    .hero h2 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .hero p { font-size: 13px; opacity: 0.9; max-width: 700px; line-height: 1.5; margin-bottom: 20px; }
+    .stat-row { display: flex; gap: 20px; }
+    .stat { background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 8px; backdrop-filter: blur(5px); }
+    .stat .n { font-size: 18px; font-weight: 700; }
+    .stat .l { font-size: 11px; opacity: 0.8; }
 
-.user-badge{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--navy-2);font-family:'Source Sans Pro',Arial,sans-serif;background:#eef1f6;border-radius:20px;padding:6px 12px 6px 6px;}
-.user-badge .av{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.link-btn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:0;}
-.link-btn:hover{color:var(--red);}
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+    .nav-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 15px; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; gap: 8px; }
+    .nav-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .nav-card .code { font-size: 11px; font-weight: 700; color: var(--primary); background: rgba(27,94,32,0.08); padding: 2px 6px; width: fit-content; border-radius: 4px; }
+    .nav-card .t { font-size: 13px; font-weight: 700; color: var(--text); }
+    .nav-card .d { font-size: 11px; color: var(--muted); flex: 1; }
+    .nav-card .n { font-size: 11px; font-weight: 600; color: var(--primary); margin-top: 5px; }
 
-/* Login Overlay */
-.login-overlay{
-  position:fixed;inset:0;background:linear-gradient(135deg,var(--navy) 0%,#0c1a2e 100%);
-  display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
-}
-.login-card{background:var(--paper-2);border-radius:14px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}
-.login-head{background:var(--navy);padding:26px 28px 20px;text-align:center;color:#fff;}
-.login-head .logo-circle{margin:0 auto 12px;width:60px;height:60px;}
-.login-head .eyebrow{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);font-weight:700;}
-.login-head h2{font-family:Georgia,serif;font-size:18px;margin:6px 0 2px;}
-.login-head .sub{font-size:11.5px;color:#b9c2d1;}
-.login-body{padding:22px 28px 28px;}
-.login-tabs{display:flex;gap:6px;margin-bottom:18px;background:#f0ede2;border-radius:8px;padding:4px;}
-.login-tab{flex:1;text-align:center;padding:8px;border-radius:6px;font-size:12.5px;font-weight:700;background:none;border:none;cursor:pointer;color:var(--muted);}
-.login-tab.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.12);}
-.pin-wrap{position:relative;}
-.pin-wrap input{padding-right:48px;letter-spacing:2px;}
-.pin-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:11.5px;padding:4px;}
-.login-error{background:#fbeae5;color:var(--red);border-radius:6px;padding:8px 10px;font-size:12px;margin-bottom:10px;display:none;}
-.login-error.show{block;}
-.toggle-row{display:flex;align-items:center;gap:10px;margin:8px 0 14px;}
-.toggle{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle .slider{position:absolute;cursor:pointer;inset:0;background:#d5d0c1;border-radius:22px;transition:.2s;}
-.toggle .slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
-.toggle input:checked + .slider{background:var(--gold);}
-.toggle input:checked + .slider::before{transform:translateX(18px);}
-.toggle-row label{font-size:12.5px;color:var(--muted);cursor:pointer;}
-.btn-block{width:100%;justify-content:center;margin-top:6px;padding:10px;}
-</style>
+    .save-pill { position: fixed; bottom: 20px; right: 20px; background: var(--primary-dark); color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(10px); transition: 0.3s; pointer-events: none; }
+    .save-pill.show { opacity: 1; transform: translateY(0); }
+    
+    .user-badge { display: flex; align-items: center; gap: 8px; font-size: 12px; background: #f0f2f1; padding: 4px 10px; border-radius: 20px; }
+    .user-badge .av { width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; }
+    .link-btn { background: none; border: none; color: var(--primary); cursor: pointer; font-weight: 600; font-size: 12px; }
+    .link-btn:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
 
-<!-- LAYAR MASUK / LOGIN -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div class="login-head">
-      <div class="logo-circle" id="loginLogoCircle"><span class="mono">ST</span></div>
-      <div class="eyebrow">Manajemen Risiko 2026</div>
-      <h2>Aplikasi M-KK Risk Sulawesi Tengah</h2>
-      <div class="sub">Pemerintah Provinsi Sulawesi Tengah</div>
-    </div>
-    <div class="login-body">
-      <div class="login-tabs">
-        <button class="login-tab active" id="tabMasuk">Masuk</button>
-        <button class="login-tab" id="tabDaftar">Daftar Akun</button>
+  <!-- Modal Login / Autentikasi PIN -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-logo" id="loginLogoCircle"><span class="mono">ST</span></div>
+      <div class="login-title">M-KK Risk Sulawesi Tengah</div>
+      <div class="login-subtitle">Sistem Manajemen Risiko Terpadu OPD 2026</div>
+      
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tabMasuk">Masuk</div>
+        <div class="auth-tab" id="tabDaftar">Buat Akun</div>
       </div>
-      <div class="login-error" id="loginError"></div>
+
+      <div id="loginError" style="background:#ffebee; color:#c0392b; font-size:11px; padding:8px; border-radius:4px; margin-bottom:12px; display:none;"></div>
 
       <form id="formMasuk">
         <div class="field">
-          <label>Nama Pengguna</label>
-          <input type="text" id="loginUsername" placeholder="mis. admin" autocomplete="username">
+          <label>Nama Pengguna / OPD</label>
+          <input type="text" id="loginUsername" placeholder="Contoh: admin atau nama OPD" required>
         </div>
         <div class="field">
-          <label>PIN Akses</label>
-          <div class="pin-wrap">
-            <input type="password" id="loginPin" maxlength="8" placeholder="••••" autocomplete="current-password">
-            <button type="button" class="pin-toggle" id="toggleLoginPin">Lihat</button>
+          <label>PIN Keamanan</label>
+          <div style="display:flex; gap:5px;">
+            <input type="password" id="loginPin" placeholder="Masukkan PIN" required style="flex:1;">
+            <button type="button" class="btn btn-outline btn-sm" id="toggleLoginPin">Lihat</button>
           </div>
         </div>
-        <div class="toggle-row">
-          <label class="toggle"><input type="checkbox" id="rememberToggle"><span class="slider"></span></label>
+        <div style="display:flex; align-items:center; gap:8px; margin: 15px 0; font-size:12px;">
+          <input type="checkbox" id="rememberToggle" checked>
           <label for="rememberToggle">Ingat nama pengguna</label>
         </div>
-        <button type="submit" class="btn btn-gold btn-block">Masuk Aplikasi</button>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Masuk ke Aplikasi</button>
       </form>
 
       <form id="formDaftar" style="display:none;">
         <div class="field">
-          <label>Nama Pengguna Baru</label>
-          <input type="text" id="regUsername" placeholder="mis. staf.dpmd" autocomplete="username">
+          <label>Nama Pengguna / OPD Baru</label>
+          <input type="text" id="regUsername" placeholder="Masukkan nama pengguna" required>
         </div>
         <div class="field">
-          <label>Buat PIN (4-8 digit)</label>
-          <div class="pin-wrap">
-            <input type="password" id="regPin" maxlength="8" placeholder="••••" autocomplete="new-password">
-            <button type="button" class="pin-toggle" id="toggleRegPin">Lihat</button>
+          <label>Buat PIN (Min. 4 Digit)</label>
+          <div style="display:flex; gap:5px;">
+            <input type="password" id="regPin" placeholder="Buat PIN" required style="flex:1;">
+            <button type="button" class="btn btn-outline btn-sm" id="toggleRegPin">Lihat</button>
           </div>
         </div>
-        <button type="submit" class="btn btn-gold btn-block">Daftar & Masuk</button>
+        <div class="field">
+          <label>Konfirmasi PIN</label>
+          <div style="display:flex; gap:5px;">
+            <input type="password" id="regPin2" placeholder="Ulangi PIN" required style="flex:1;">
+            <button type="button" class="btn btn-outline btn-sm" id="toggleReg2Pin">Lihat</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px;">Daftar & Masuk</button>
       </form>
     </div>
   </div>
-</div>
 
-<!-- APLIKASI UTAMA -->
-<div class="app" id="appRoot" style="display:none;">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-row">
-        <div class="logo-circle" id="sidebarLogoCircle"><span class="mono">ST</span></div>
-        <div>
-          <div class="eyebrow">Manajemen Risiko</div>
+  <!-- Struktur Utama Aplikasi -->
+  <div class="app-root" id="appRoot" style="display:none;">
+    <aside>
+      <div class="brand">
+        <div class="brand-logo" id="sidebarLogoCircle"><span class="mono">ST</span></div>
+        <div class="brand-text">
           <h1>M-KK Risk Sulteng</h1>
+          <p>Provinsi Sulawesi Tengah 2026</p>
         </div>
       </div>
-      <div class="sub">Formulir 2 sampai 10 Terpadu</div>
-      <button class="logo-edit" id="btnChangeLogo">Ubah Logo Instansi</button>
-      <input type="file" id="logoFileInput" accept="image/*" style="display:none">
-    </div>
-    <nav class="menu" id="menu"></nav>
-    <div class="sidebar-foot">Data tersimpan otomatis · Siap Cetak PDF & Excel</div>
-  </aside>
-
-  <main>
-    <div class="topbar">
-      <div>
-        <div class="crumbs" id="crumb">Beranda</div>
-        <h2 id="pageTitle">Dasbor Utama</h2>
+      <div class="menu" id="menu">
+        <!-- Menu dirender secara dinamis melalui JavaScript -->
       </div>
-      <div class="topbar-actions">
-        <span class="save-pill" id="savePill">✓ Tersimpan</span>
-        <span class="user-badge" id="userBadge"></span>
-        <button class="btn btn-gold" id="btnExport">⬇ Ekspor Excel</button>
-        <button class="btn btn-primary" id="btnPrintPdf">🖨 Cetak PDF Lengkap</button>
+      <div style="padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" id="btnChangeLogo" style="flex:1;">Ganti Logo</button>
+        <button class="btn btn-outline btn-sm" id="btnReset" title="Reset Data">Reset</button>
       </div>
-    </div>
-    <div class="content" id="content"></div>
-  </main>
-</div>
+      <input type="file" id="logoFileInput" accept="image/*" style="display:none;">
+    </aside>
 
-<script>
-// Data Logika Form & State Pengguna
-const RAW_DATA = {
-  form2b: {
-    tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
-    iku: [{no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"}],
-    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas PMD Provinsi Sulteng",
-    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
-  },
-  form3b: {
-    records: [{no:"1.", kode:"RSO.26.13.16.01", risiko:"Penyesuaian IDM Menjadi Indeks Desa", sebab:"Belum sepenuhnya dipahami", dampak:"Status desa menurun", sumber:"eksternal"}]
-  }
-};
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="breadcrumb" id="crumb">Pemerintah Provinsi Sulawesi Tengah</div>
+          <div class="page-title" id="pageTitle">Beranda Utama</div>
+        </div>
+        <div class="topbar-right">
+          <div class="user-badge" id="userBadge"></div>
+          <button class="btn btn-primary btn-sm" id="btnExport">Ekspor ke Excel</button>
+        </div>
+      </header>
+      <div class="content-area" id="content">
+        <!-- Konten formulir atau beranda dimuat di sini -->
+      </div>
+    </main>
+  </div>
 
-// Toggle Login / Daftar Tabs
-document.getElementById('tabMasuk').addEventListener('click', () => {
-  document.getElementById('tabMasuk').classList.add('active');
-  document.getElementById('tabDaftar').classList.remove('active');
-  document.getElementById('formMasuk').style.display = 'block';
-  document.getElementById('formDaftar').style.display = 'none';
-});
-document.getElementById('tabDaftar').addEventListener('click', () => {
-  document.getElementById('tabDaftar').classList.add('active');
-  document.getElementById('tabMasuk').classList.remove('active');
-  document.getElementById('formDaftar').style.display = 'block';
-  document.getElementById('formMasuk').style.display = 'none';
-});
+  <div class="save-pill" id="savePill">Perubahan tersimpan otomatis</div>
 
-// Toggle PIN Visibility
-function setupTogglePin(inputId, btnId) {
-  const input = document.getElementById(inputId);
-  const btn = document.getElementById(btnId);
-  btn.addEventListener('click', () => {
-    if(input.type === 'password') {
-      input.type = 'text';
-      btn.textContent = 'Sembunyi';
-    } else {
-      input.type = 'password';
-      btn.textContent = 'Lihat';
-    }
-  });
-}
-setupTogglePin('loginPin', 'toggleLoginPin');
-setupTogglePin('regPin', 'toggleRegPin');
-
-// Autentikasi Pengguna
-let currentUser = localStorage.getItem('mkk_user') || '';
-const savedUserField = localStorage.getItem('mkk_saved_user');
-if(savedUserField) {
-  document.getElementById('loginUsername').value = savedUserField;
-  document.getElementById('rememberToggle').checked = true;
-}
-
-document.getElementById('formMasuk').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const u = document.getElementById('loginUsername').value.trim();
-  const p = document.getElementById('loginPin').value.trim();
-  if(!u || !p) { showLoginError('Nama pengguna dan PIN wajib diisi.'); return; }
-  if(document.getElementById('rememberToggle').checked) localStorage.setItem('mkk_saved_user', u);
-  currentUser = u;
-  localStorage.setItem('mkk_user', u);
-  initApp();
-});
-
-document.getElementById('formDaftar').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const u = document.getElementById('regUsername').value.trim();
-  const p = document.getElementById('regPin').value.trim();
-  if(!u || !p) { showLoginError('Semua kolom wajib diisi.'); return; }
-  currentUser = u;
-  localStorage.setItem('mkk_user', u);
-  initApp();
-});
-
-function showLoginError(msg) {
-  const err = document.getElementById('loginError');
-  err.textContent = msg;
-  err.classList.add('show');
-  setTimeout(() => err.classList.remove('show'), 3500);
-}
-
-// Logo Instansi Manager
-const savedLogo = localStorage.getItem('mkk_logo');
-if(savedLogo) applyLogo(savedLogo);
-
-document.getElementById('btnChangeLogo').addEventListener('click', () => {
-  document.getElementById('logoFileInput').click();
-});
-document.getElementById('logoFileInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if(file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      const dataUrl = evt.target.result;
-      localStorage.setItem('mkk_logo', dataUrl);
-      applyLogo(dataUrl);
+  <script>
+    /* ================= DEFINISI DATA & FORMULIR ================= */
+    const RAW_DATA = {
+      form2: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, sasaran:"Meningkatnya kualitas pelayanan publik berbasis elektronik", indikator:"Indeks Kepuasan Masyarakat (IKM)", target:"85.00", sumberData:"Survei Kepuasan Triwulanan"}
+        ]
+      },
+      form3: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, sasaran:"Meningkatnya kualitas pelayanan publik berbasis elektronik", indikator:"Indeks Kepuasan Masyarakat (IKM)", uraian:"Keterbatasan infrastruktur jaringan di wilayah terpencil", kode:"RS-01"}
+        ]
+      },
+      form4identifikasi: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kode:"RS-01", risiko:"Keterbatasan infrastruktur jaringan di wilayah terpencil", sebab:"Anggaran pemeliharaan jaringan belum merata", dampak:"Gangguan akses sistem pelaporan online"}
+        ]
+      },
+      form4fgd: {
+        peserta: [
+          {no:1, nama:"Kepala Dinas / Unit Kerja Utama", scores:{ "RS-01": {D:4, K:3} }},
+          {no:2, nama:"Tim Pengelola Risiko OPD", scores:{ "RS-01": {D:4, K:4} }}
+        ]
+      },
+      form4hasil: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kode:"RS-01", risiko:"Keterbatasan infrastruktur jaringan di wilayah terpencil", dampak:4, kemungkinan:4, skala:16}
+        ]
+      },
+      form5: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kode:"RS-01", risiko:"Keterbatasan infrastruktur jaringan di wilayah terpencil", skala:16, pemilik: "Kepala Bidang Terkait", penyebab: "Anggaran pemeliharaan jaringan belum merata", dampak: "Gangguan akses sistem pelaporan online"}
+        ]
+      },
+      form7: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kode:"RS-01", risiko:"Keterbatasan infrastruktur jaringan di wilayah terpencil", pengendalianAda:"Penyediaan modem satelit alternatif", celah:"Belum mencakup seluruh titik wilayah terpencil", rtp:"Pengadaan titik akses internet satelit tambahan", pj:"Kepala Seksi Infrastruktur", targetWaktu:"Triwulan III 2026"}
+        ]
+      },
+      form8: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        tujuanStrategis: "Meningkatkan akuntabilitas kinerja dan tata kelola pemerintahan yang bersih",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kegiatanPengendalian:"Pengadaan titik akses internet satelit tambahan", media:"Kontrak Pengadaan Barang dan Jasa E-Katalog", penyedia:"Penyedia Mitra Resmi", penerima:"Unit Kerja Wilayah Terpencil", rencanaWaktu:"Agustus 2026", realisasiWaktu:"Dalam Proses", keterangan:"Menunggu verifikasi PPK"}
+        ]
+      },
+      form9: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kegiatanPengendalian:"Pengadaan titik akses internet satelit tambahan", bentukPemantauan:"Inspeksi berkala dan laporan kemajuan bulanan", pj:"Tim Monitoring Internal", rencanaWaktu:"September 2026", realisasiWaktu:"Belum Jadwal", keterangan:"Berjalan sesuai jadwal"}
+        ]
+      },
+      form10: {
+        namaPemda: "Pemerintah Provinsi Sulawesi Tengah",
+        tahun: "2026",
+        urusan: "Urusan Pemerintahan Wajib / Pilihan",
+        records: [
+          {no:1, kode:"RS-01", risiko:"Keterbatasan infrastruktur jaringan di wilayah terpencil", tempat:"Wilayah Kerja Terpencil", sebab:"Keterbatasan jaringan awal", dampak:"Keterlambatan input data", rtp:"Pengadaan akses internet satelit", realisasiRtp:"Sedang Berjalan", keterangan2:"Pengendalian efektif menurunkan risiko"}
+        ]
+      }
     };
-    reader.readAsDataURL(file);
-  }
-});
 
-function applyLogo(url) {
-  ['sidebarLogoCircle', 'loginLogoCircle', 'heroLogoCircle'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.innerHTML = `<img src="${url}" alt="Logo Sulawesi Tengah">`;
-  });
-}
+    const FORMS = {
+      form2: {
+        code:'2', title:'Penyusunan Konteks', desc:'Penetapan tujuan strategis, sasaran, dan indikator kinerja utama perangkat daerah.', group:'Tahap Persiapan',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis', full:true, type:'textarea'},
+          {key:'urusan', label:'Urusan Pemerintahan', full:true}
+        ],
+        records: {
+          key:'records', itemLabel:'Sasaran & Indikator', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.sasaran, metaField: r => r.indikator,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'sasaran', label:'Sasaran Strategis', type:'textarea', full:true},
+            {key:'indikator', label:'Indikator Kinerja', w:2},
+            {key:'target', label:'Target', w:1},
+            {key:'sumberData', label:'Sumber Data', w:2},
+          ]
+        }
+      },
+      form3: {
+        code:'3', title:'Identifikasi Risiko Awal', desc:'Penelusuran awal atas kejadian atau kondisi yang berpotensi menghambat pencapaian sasaran.', group:'Tahap Identifikasi',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis', full:true, type:'textarea'},
+          {key:'urusan', label:'Urusan Pemerintahan', full:true}
+        ],
+        records: {
+          key:'records', itemLabel:'Uraian Risiko', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.uraian, metaField: r => r.kode,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'sasaran', label:'Sasaran Terkait', type:'textarea', full:true},
+            {key:'indikator', label:'Indikator Kinerja', w:2},
+            {key:'uraian', label:'Uraian Peristiwa Risiko', type:'textarea', full:true},
+            {key:'kode', label:'Kode Risiko', w:2},
+          ]
+        }
+      },
+      form4identifikasi: {
+        code:'4.1', title:'Identifikasi Risiko (Form 4)', desc:'Rincian sebab dan dampak dari setiap kejadian risiko yang telah teridentifikasi.', group:'Tahap Identifikasi',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis', full:true, type:'textarea'},
+          {key:'urusan', label:'Urusan Pemerintahan', full:true}
+        ],
+        records: {
+          key:'records', itemLabel:'Identifikasi Risiko', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.risiko, metaField: r => r.kode,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'kode', label:'Kode', w:2},
+            {key:'risiko', label:'Uraian Risiko', type:'textarea', full:true},
+            {key:'sebab', label:'Sebab Utama', type:'textarea', full:true},
+            {key:'dampak', label:'Dampak Utama', type:'textarea', full:true},
+          ]
+        }
+      },
+      form4fgd: {
+        code:'4.2', title:'Penilaian Skala FGD', desc:'Lembar kerja penilaian skala dampak dan kemungkinan melalui diskusi kelompok terpumpun.', group:'Tahap Analisis',
+        auto: 'fgd'
+      },
+      form4hasil: {
+        code:'4.3', title:'Hasil Analisis Besaran Risiko', desc:'Kalkulasi otomatis besaran tingkat risiko berdasarkan perkalian nilai dampak dan kemungkinan.', group:'Tahap Analisis',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis', full:true, type:'textarea'},
+          {key:'urusan', label:'Urusan Pemerintahan', full:true}
+        ],
+        records: {
+          key:'records', itemLabel:'Hasil Analisis', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.risiko || '(risiko belum diisi)',
+          metaField: r => [r.kode, 'Skala: ' + r.skala].filter(Boolean).join(' · '),
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'risiko', label:'Uraian Risiko', help:'Uraian risiko strategis atau operasional', type:'textarea', full:true},
+            {key:'kode', label:'Kode', help:'Kode risiko', w:2},
+            {key:'dampak', label:'Skala Dampak (1-5)', help:'Nilai dampak risiko', w:1},
+            {key:'kemungkinan', label:'Skala Kemungkinan (1-5)', help:'Nilai kemungkinan risiko', w:1},
+            {key:'skala', label:'Besaran Risiko (Skala)', help:'Perkalian dampak dan kemungkinan', w:1},
+          ]
+        }
+      },
+      form6: {
+        code:'6', title:'Matriks Analisis Risiko', desc:'Visualisasi matriks level risiko otomatis dari hasil analisis data.', group:'Tahap Analisis',
+        auto: 'matrix'
+      },
+      form5: {
+        code:'5', title:'Evaluasi Risiko', desc:'Penetapan peringkat dan prioritas penanganan risiko berdasarkan besaran risiko hasil analisis.', group:'Tahap Evaluasi',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis'}, {key:'urusan', label:'Urusan Pemerintahan'},
+        ],
+        records: {
+          key:'records', itemLabel:'Evaluasi Risiko', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.risiko, metaField: r => [r.kode, 'Skala: ' + r.skala].join(' · '),
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'risiko', label:'Uraian Risiko', type:'textarea', full:true},
+            {key:'kode', label:'Kode', w:2},
+            {key:'skala', label:'Besaran Risiko', w:1},
+            {key:'pemilik', label:'Pemilik Risiko', w:2},
+            {key:'penyebab', label:'Penyebab Utama', type:'textarea', full:true},
+            {key:'dampak', label:'Dampak Utama', type:'textarea', full:true},
+          ]
+        }
+      },
+      form7: {
+        code:'7', title:'Rencana Tindak Pengendalian (RTP)', desc:'Penyusunan langkah-langkah penanganan untuk memitigasi risiko prioritas.', group:'Tahap Penanganan',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis'}, {key:'urusan', label:'Urusan Pemerintahan'},
+        ],
+        records: {
+          key:'records', itemLabel:'Rencana Pengendalian', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.risiko, metaField: r => r.kode,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'risiko', label:'Uraian Risiko', type:'textarea', full:true},
+            {key:'kode', label:'Kode Risiko', w:2},
+            {key:'pengendalianAda', label:'Pengendalian yang Sudah Ada', type:'textarea', full:true},
+            {key:'celah', label:'Celah Pengendalian (Control Gap)', type:'textarea', full:true},
+            {key:'rtp', label:'Rencana Tindak Pengendalian (RTP)', type:'textarea', full:true},
+            {key:'pj', label:'Penanggung Jawab', w:2},
+            {key:'targetWaktu', label:'Target Waktu Pelaksanaan', w:2},
+          ]
+        }
+      },
+      form8: {
+        code:'8', title:'Pelaksanaan RTP (Form 8)', desc:'Pemantauan kemajuan pelaksanaan rencana tindak pengendalian risiko triwulanan.', group:'Tahap Pemantauan',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'tujuanStrategis', label:'Tujuan Strategis'}, {key:'urusan', label:'Urusan Pemerintahan'},
+        ],
+        records: {
+          key:'records', itemLabel:'Monitoring RTP', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.kegiatanPengendalian, metaField: r => r.rencanaWaktu,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'kegiatanPengendalian', label:'Kegiatan Pengendalian / RTP', type:'textarea', full:true},
+            {key:'media', label:'Media / Bentuk Pelaksanaan', type:'textarea', full:true},
+            {key:'penyedia', label:'Pemberi / Penanggung Jawab', w:2},
+            {key:'penerima', label:'Penerima / Sasaran', w:2},
+            {key:'rencanaWaktu', label:'Rencana Waktu', w:2},
+            {key:'realisasiWaktu', label:'Realisasi Waktu', w:2},
+            {key:'keterangan', label:'Keterangan / Status', type:'textarea', full:true},
+          ]
+        }
+      },
+      form9: {
+        code:'9', title:'Pemantauan Risiko & Pengendalian', desc:'Evaluasi berkala atas efektivitas pengendalian risiko yang telah berjalan di OPD.', group:'Tahap Pemantauan',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'urusan', label:'Urusan Pemerintahan'},
+        ],
+        records: {
+          key:'records', itemLabel:'Pemantauan', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.kegiatanPengendalian, metaField: r => r.pj,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'kegiatanPengendalian', label:'Kegiatan Pengendalian', type:'textarea', full:true},
+            {key:'bentukPemantauan', label:'Bentuk Pemantauan', type:'textarea', full:true},
+            {key:'pj', label:'Penanggung Jawab', w:2},
+            {key:'rencanaWaktu', label:'Rencana Waktu', w:2},
+            {key:'realisasiWaktu', label:'Realisasi Waktu', w:2},
+            {key:'keterangan', label:'Keterangan', type:'textarea', full:true},
+          ]
+        }
+      },
+      form10: {
+        code:'10', title:'Pelaporan Manajemen Risiko', desc:'Rekapitulasi akhir pelaksanaan manajemen risiko instansi pemerintah secara komprehensif.', group:'Tahap Pelaporan',
+        header: [
+          {key:'namaPemda', label:'Nama Pemda'}, {key:'tahun', label:'Tahun Penilaian'},
+          {key:'urusan', label:'Urusan Pemerintahan'},
+        ],
+        records: {
+          key:'records', itemLabel:'Laporan Risiko', groupField:'group', groupLabel:'Kelompok',
+          titleField: r => r.risiko, metaField: r => r.kode,
+          fields:[
+            {key:'no', label:'No', w:1},
+            {key:'risiko', label:'Uraian Risiko', type:'textarea', full:true},
+            {key:'kode', label:'Kode Risiko', w:2},
+            {key:'tempat', label:'Lokasi Kejadian', w:2},
+            {key:'sebab', label:'Sebab', type:'textarea', full:true},
+            {key:'dampak', label:'Dampak', type:'textarea', full:true},
+            {key:'rtp', label:'Tindak Pengendalian', type:'textarea', full:true},
+            {key:'realisasiRtp', label:'Realisasi RTP', w:2},
+            {key:'keterangan2', label:'Keterangan Akhir', type:'textarea', full:true},
+          ]
+        }
+      }
+    };
 
-function initApp() {
-  if(!currentUser) return;
-  document.getElementById('loginOverlay').style.display = 'none';
-  document.getElementById('appRoot').style.display = 'flex';
-  document.getElementById('userBadge').innerHTML = `<div class="av">${currentUser[0].toUpperCase()}</div><b>${currentUser}</b> <button class="link-btn" id="btnLogout">Keluar</button>`;
-  document.getElementById('btnLogout').addEventListener('click', () => {
-    localStorage.removeItem('mkk_user');
-    location.reload();
-  });
-  renderNavigation();
-  renderContent('home');
-}
+    /* ================= LOGIKA APLIKASI UTAMA ================= */
+    let currentView = 'beranda';
+    let appData = JSON.parse(JSON.stringify(RAW_DATA));
+    let currentUser = null;
+    let customLogo = null;
 
-if(currentUser) { initApp(); }
+    function initApp() {
+      const saved = localStorage.getItem('mkk_risk_sulteng_data');
+      if(saved){
+        try{ appData = JSON.parse(saved); }catch(e){}
+      }
+      const savedLogo = localStorage.getItem('mkk_risk_sulteng_logo');
+      if(savedLogo){ customLogo = savedLogo; updateLogoDisplay(); }
 
-// Navigasi Form 2 hingga Form 10
-const menuData = [
-  {id:'home', code:'00', title:'Beranda Utama'},
-  {id:'form2b', code:'2B', title:'Penilaian Risiko Strategis'},
-  {id:'form2c', code:'2C', title:'Identifikasi Program & Kegiatan'},
-  {id:'form3b', code:'3B', title:'Register Risiko Strategis'},
-  {id:'form3c', code:'3C', title:'Peta Risiko Strategis'},
-  {id:'form4', code:'04', title:'Analisis Risiko'},
-  {id:'form5', code:'05', title:'Evaluasi Risiko'},
-  {id:'form6', code:'06', title:'Rencana Tindak Pengendalian (RTP)'},
-  {id:'form7', code:'07', title:'Register Risiko Operasional'},
-  {id:'form8', code:'08', title:'Peta Risiko Operasional'},
-  {id:'form9', code:'09', title:'Pemantauan & Reviu'},
-  {id:'form10', code:'10', title:'Pencatatan Kejadian Risiko'}
-];
-
-function renderNavigation() {
-  const menuEl = document.getElementById('menu');
-  menuEl.innerHTML = menuData.map(m => `
-    <button class="menu-item ${m.id==='home'?'active':''}" data-id="${m.id}">
-      <span class="code">${m.code}</span>
-      <span>${m.title}</span>
-    </button>
-  `).join('');
-  
-  menuEl.querySelectorAll('.menu-item').forEach(btn => {
-    btn.addEventListener('click', () => {
-      menuEl.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderContent(btn.dataset.id);
-    });
-  });
-}
-
-function renderContent(id) {
-  const content = document.getElementById('content');
-  const crumb = document.getElementById('crumb');
-  const pageTitle = document.getElementById('pageTitle');
-  
-  if(id === 'home') {
-    crumb.textContent = 'Beranda';
-    pageTitle.textContent = 'Dasbor M-KK Risk Sulawesi Tengah';
-    content.innerHTML = `
-      <div class="hero">
-        <div class="hero-logo" id="heroLogoCircle"><span class="mono">ST</span></div>
-        <div class="eyebrow">Pemerintah Provinsi Sulawesi Tengah</div>
-        <h2>Aplikasi M-KK Risk Terpadu (Form 2 - 10)</h2>
-        <p>Sistem manajemen risiko resmi Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah.</p>
-      </div>
-      <div class="panel">
-        <h3>Navigasi Modul Formulir</h3>
-        <p class="desc">Gunakan menu di sebelah kiri untuk berpindah antar formulir penilaian risiko secara interaktif.</p>
-      </div>
-    `;
-    if(savedLogo) {
-      const hLogo = document.getElementById('heroLogoCircle');
-      if(hLogo) hLogo.innerHTML = `<img src="${savedLogo}" alt="Logo">`;
+      setupAuth();
+      if(!currentUser){
+        document.getElementById('loginOverlay').style.display = 'flex';
+      } else {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('appRoot').style.display = 'flex';
+        renderMenu();
+        renderContent();
+        updateUserBadge();
+      }
     }
-  } else {
-    const item = menuData.find(m => m.id === id);
-    crumb.textContent = `Form ${item.code}`;
-    pageTitle.textContent = item.title;
-    content.innerHTML = `
-      <div class="panel">
-        <h3>${item.title}</h3>
-        <div class="desc">Formulir aktif pengisian data manajemen risiko daerah.</div>
-        <div class="field">
-          <label>Catatan / Keterangan Isian Form ${item.code}</label>
-          <textarea placeholder="Masukkan data atau uraian analisis risiko di sini..."></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="alert('Data berhasil disimpan secara lokal.')">Simpan Perubahan Isian</button>
-      </div>
-    `;
-  }
-}
 
-// Fitur Cetak PDF Lengkap dengan Tanda Tangan & NIP Kepala Dinas
-document.getElementById('btnPrintPdf').addEventListener('click', function() {
-  const win = window.open('', '_blank');
-  win.document.write(`
-    <html>
-    <head>
-      <title>Cetak PDF M-KK Risk Sulawesi Tengah</title>
-      <style>
-        body { font-family: Georgia, serif; font-size: 12px; color: #111; padding: 25px; line-height: 1.4; }
-        h1, h2, h3 { color: #122540; text-align: center; margin-bottom: 4px; }
-        .subtitle { text-align: center; font-size: 11px; color: #555; margin-bottom: 25px; font-family: Arial, sans-serif; }
-        .section-box { border: 1px solid #aaa; padding: 15px; margin-bottom: 25px; border-radius: 6px; background: #fff; page-break-inside: avoid; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; font-family: Arial, sans-serif; }
-        th, td { border: 1px solid #888; padding: 6px; text-align: left; vertical-align: top; }
-        th { background: #122540; color: #fff; text-align: center; }
-        .ttd-area { margin-top: 25px; float: right; text-align: center; font-family: Arial, sans-serif; font-size: 12px; }
-        .clear { clear: both; }
-      </style>
-    </head>
-    <body>
-      <h1>PEMERINTAH PROVINSI SULAWESI TENGAH</h1>
-      <h2>DINAS PEMBERDAYAAN MASYARAKAT DAN DESA</h2>
-      <div class="subtitle">LAPORAN DOKUMEN MANAJEMEN RISIKO M-KK RISK (FORM 2 - 10) TAHUN 2026</div>
+    function saveData(){
+      localStorage.setItem('mkk_risk_sulteng_data', JSON.stringify(appData));
+      showSaveIndicator();
+    }
 
-      <div class="section-box">
-        <h3>RINGKASAN FORMULIR STRATEGIS & OPERASIONAL</h3>
-        <table>
-          <tr><th>No</th><th>Uraian / Indikator</th><th>Keterangan / Target</th></tr>
-          <tr><td style="text-align:center">1.</td><td>Tujuan Strategis</td><td>${RAW_DATA.form2b.tujuanStrategis}</td></tr>
-          <tr><td style="text-align:center">2.</td><td>Register Risiko Utama</td><td>${RAW_DATA.form3b.records[0].risiko} (${RAW_DATA.form3b.records[0].dampak})</td></tr>
-        </table>
-        <div class="ttd-area">
-          <div>${RAW_DATA.form2b.ttdTempatTanggal}</div>
-          <div><b>${RAW_DATA.form2b.ttdJabatan}</b></div>
-          <br><br><br>
-          <div><b><u>${RAW_DATA.form2b.ttdNama}</u></b></div>
-          <div>${RAW_DATA.form2b.ttdPangkat}</div>
-          <div><b>${RAW_DATA.form2b.ttdNip}</b></div>
+    function showSaveIndicator(){
+      const pill = document.getElementById('savePill');
+      pill.classList.add('show');
+      setTimeout(()=> pill.classList.remove('show'), 1500);
+    }
+
+    function updateLogoDisplay(){
+      if(!customLogo) return;
+      ['loginLogoCircle', 'sidebarLogoCircle'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.innerHTML = `<img src="${customLogo}" alt="Logo">`;
+      });
+    }
+
+    function setupAuth(){
+      const lastUser = localStorage.getItem('mkk_risk_last_user');
+      if(lastUser){
+        document.getElementById('loginUsername').value = lastUser;
+        document.getElementById('rememberToggle').checked = true;
+      }
+
+      document.getElementById('tabMasuk').addEventListener('click', ()=>{
+        document.getElementById('tabMasuk').classList.add('active');
+        document.getElementById('tabDaftar').classList.remove('active');
+        document.getElementById('formMasuk').style.display = 'block';
+        document.getElementById('formDaftar').style.display = 'none';
+      });
+
+      document.getElementById('tabDaftar').addEventListener('click', ()=>{
+        document.getElementById('tabDaftar').classList.add('active');
+        document.getElementById('tabMasuk').classList.remove('active');
+        document.getElementById('formDaftar').style.display = 'block';
+        document.getElementById('formMasuk').style.display = 'none';
+      });
+
+      ['Login', 'Reg', 'Reg2'].forEach(t => {
+        const btn = document.getElementById('toggle' + t + 'Pin');
+        const input = document.getElementById(t.toLowerCase().replace('pin','pin') + (t==='Reg2'?'2':''));
+        if(btn && input){
+          btn.addEventListener('click', ()=>{
+            input.type = input.type === 'password' ? 'text' : 'password';
+            btn.textContent = input.type === 'password' ? 'Lihat' : 'Sembunyikan';
+          });
+        }
+      });
+
+      document.getElementById('formMasuk').addEventListener('submit', e=>{
+        e.preventDefault();
+        const u = document.getElementById('loginUsername').value.trim();
+        const p = document.getElementById('loginPin').value.trim();
+        if(!u || !p){ showLoginError('Nama pengguna dan PIN wajib diisi.'); return; }
+        
+        let users = JSON.parse(localStorage.getItem('mkk_risk_users') || '{"admin":"2026"}');
+        if(users[u] && users[u] === p){
+          completeLogin(u);
+        } else if(u === 'admin' && p === '2026'){
+          completeLogin(u);
+        } else {
+          showLoginError('Nama pengguna atau PIN salah.');
+        }
+      });
+
+      document.getElementById('formDaftar').addEventListener('submit', e=>{
+        e.preventDefault();
+        const u = document.getElementById('regUsername').value.trim();
+        const p = document.getElementById('regPin').value.trim();
+        const p2 = document.getElementById('regPin2').value.trim();
+        if(!u || !p){ showLoginError('Semua kolom wajib diisi.'); return; }
+        if(p !== p2){ showLoginError('Konfirmasi PIN tidak cocok.'); return; }
+        if(p.length < 4){ showLoginError('PIN minimal 4 digit.'); return; }
+
+        let users = JSON.parse(localStorage.getItem('mkk_risk_users') || '{"admin":"2026"}');
+        users[u] = p;
+        localStorage.setItem('mkk_risk_users', JSON.stringify(users));
+        completeLogin(u);
+      });
+    }
+
+    function showLoginError(msg){
+      const err = document.getElementById('loginError');
+      err.textContent = msg;
+      err.style.display = 'block';
+      setTimeout(()=> err.style.display = 'none', 3000);
+    }
+
+    function completeLogin(username){
+      currentUser = username;
+      if(document.getElementById('rememberToggle').checked){
+        localStorage.setItem('mkk_risk_last_user', username);
+      } else {
+        localStorage.removeItem('mkk_risk_last_user');
+      }
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('appRoot').style.display = 'flex';
+      renderMenu();
+      renderContent();
+      updateUserBadge();
+    }
+
+    function updateUserBadge(){
+      const badge = document.getElementById('userBadge');
+      badge.innerHTML = `<div class="av">${currentUser.charAt(0).toUpperCase()}</div><span><b>${currentUser}</b></span><button class="link-btn" id="btnLogout">Keluar</button>`;
+      document.getElementById('btnLogout').addEventListener('click', ()=>{
+        currentUser = null;
+        document.getElementById('appRoot').style.display = 'none';
+        document.getElementById('loginOverlay').style.display = 'flex';
+        document.getElementById('loginPin').value = '';
+      });
+    }
+
+    function renderMenu(){
+      const menu = document.getElementById('menu');
+      let html = `<button class="menu-item ${currentView==='beranda'?'active':''}" onclick="navTo('beranda')"><span class="code">🏠</span><span>Beranda Utama</span></button>`;
+      
+      let groups = {};
+      Object.keys(FORMS).forEach(k => {
+        let g = FORMS[k].group || 'Lainnya';
+        if(!groups[g]) groups[g] = [];
+        groups[g].push({key:k, ...FORMS[k]});
+      });
+
+      Object.keys(groups).forEach(gName => {
+        html += `<div class="menu-group"><div class="menu-group-title">${gName}</div>`;
+        groups[gName].forEach(item => {
+          html += `<button class="menu-item ${currentView===item.key?'active':''}" onclick="navTo('${item.key}')"><span class="code">${item.code}</span><span>${item.title}</span></button>`;
+        });
+        html += `</div>`;
+      });
+      menu.innerHTML = html;
+    }
+
+    function navTo(viewKey){
+      currentView = viewKey;
+      renderMenu();
+      renderContent();
+      window.scrollTo(0,0);
+    }
+
+    function renderContent(){
+      const crumb = document.getElementById('crumb');
+      const pageTitle = document.getElementById('pageTitle');
+      const content = document.getElementById('content');
+
+      if(currentView === 'beranda'){
+        crumb.textContent = 'Pemerintah Provinsi Sulawesi Tengah';
+        pageTitle.textContent = 'Beranda Manajemen Risiko';
+        content.innerHTML = `
+          <div class="hero">
+            <div class="hero-logo" id="heroLogoCircle"><span class="mono">ST</span></div>
+            <div class="eyebrow">Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</div>
+            <h2>Manajemen Risiko Terpadu Perangkat Daerah 2026</h2>
+            <p>Sistem pengisian, analisis, evaluasi, hingga pemantauan rencana tindak pengendalian risiko strategis dan operasional lingkup Pemerintah Provinsi Sulawesi Tengah[cite: 3].</p>
+            <div class="stat-row">
+              <div class="stat"><div class="n">10</div><div class="l">Formulir Risiko</div></div>
+              <div class="stat"><div class="n">2026</div><div class="l">Tahun Anggaran</div></div>
+              <div class="stat"><div class="n">OPD</div><div class="l">Pelaksana</div></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Daftar Modul Formulir Manajemen Risiko</h3>
+            <div class="desc">Pilih modul di bawah atau melalui bilah navigasi kiri untuk mulai mengelola dan mengisi data lembar kerja.</div>
+            <div class="grid-cards">
+              ${Object.keys(FORMS).map(k => `
+                <div class="nav-card" onclick="navTo('${k}')">
+                  <div class="code">Form ${FORMS[k].code}</div>
+                  <div class="t">${FORMS[k].title}</div>
+                  <div class="d">${FORMS[k].desc}</div>
+                  <div class="n">Buka Modul →</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        updateLogoDisplay();
+        return;
+      }
+
+      const fDef = FORMS[currentView];
+      if(!fDef) return;
+
+      crumb.textContent = fDef.group || 'Formulir';
+      pageTitle.textContent = `Formulir ${fDef.code} — ${fDef.title}`;
+
+      if(fDef.auto === 'matrix'){
+        renderMatrixView(content);
+        return;
+      }
+      if(fDef.auto === 'fgd'){
+        renderFgdView(content, fDef);
+        return;
+      }
+
+      let html = `<div class="panel"><h3>${fDef.title}</h3><div class="desc">${fDef.desc}</div>`;
+      
+      if(fDef.header){
+        html  += `<div class="info-grid">`;
+        fDef.header.forEach(h => {
+          let val = (appData[currentView] && appData[currentView][h.key] !== undefined) ? appData[currentView][h.key] : '';
+          let isFull = h.full || h.type === 'textarea';
+          html += `<div class="field ${isFull?'full':''}">
+            <label>${h.label}</label>
+            ${h.type==='textarea' ? `<textarea rows="2" oninput="updateHeader('${h.key}', this.value)">${val}</textarea>` : `<input type="text" value="${val}" oninput="updateHeader('${h.key}', this.value)">`}
+            ${h.help?`<div class="help">${h.help}</div>`:''}
+          </div>`;
+        });
+        html += `</div></div>`;
+      }
+
+      if(fDef.records){
+        let recs = appData[currentView][fDef.records.key] || [];
+        html += `<div class="panel"><h3>Daftar ${fDef.records.itemLabel}</h3><div class="record-list" id="recordListContainer">`;
+        
+        if(recs.length === 0){
+          html += `<div class="empty-state">Belum ada data terekam. Klik tombol di bawah untuk menambah data baru.</div>`;
+        } else {
+          recs.forEach((rec, idx) => {
+            html += `<details class="record-card" open>
+              <summary>
+                <div class="idx">${idx+1}</div>
+                <div class="sum">
+                  <div class="title">${fDef.records.titleField(rec)}</div>
+                  <div class="meta">${fDef.records.metaField(rec)}</div>
+                </div>
+                <div class="chev">▶</div>
+              </summary>
+              <div class="body">
+                <div class="record-fields">`;
+            
+            fDef.records.fields.forEach(rf => {
+              let rVal = rec[rf.key] !== undefined ? rec[rf.key] : '';
+              let isFull = rf.full || rf.type === 'textarea';
+              html += `<div class="field ${isFull?'full':''}">
+                <label>${rf.label}</label>
+                ${rf.type==='textarea' || isFull ? `<textarea rows="2" oninput="updateRecord(${idx}, '${rf.key}', this.value)">${rVal}</textarea>` : `<input type="text" value="${rVal}" oninput="updateRecord(${idx}, '${rf.key}', this.value)">`}
+                ${rf.help?`<div class="help">${rf.help}</div>`:''}
+              </div>`;
+            });
+
+            html += `</div>
+                <div class="record-actions">
+                  <button class="btn btn-danger btn-sm" onclick="deleteRecord(${idx})">Hapus Baris</button>
+                </div>
+              </div>
+            </details>`;
+          });
+        }
+
+        html += `</div><div class="add-row"><button class="btn btn-primary" onclick="addRecord()">+ Tambah ${fDef.records.itemLabel}</button></div></div>`;
+      }
+
+      content.innerHTML = html;
+    }
+
+    window.updateHeader = function(key, val){
+      if(!appData[currentView]) appData[currentView] = {};
+      appData[currentView][key] = val;
+      saveData();
+    };
+
+    window.updateRecord = function(idx, key, val){
+      const fDef = FORMS[currentView];
+      if(!fDef || !fDef.records) return;
+      let rKey = fDef.records.key;
+      if(!appData[currentView][rKey]) appData[currentView][rKey] = [];
+      appData[currentView][rKey][idx][key] = val;
+      saveData();
+    };
+
+    window.addRecord = function(){
+      const fDef = FORMS[currentView];
+      if(!fDef || !fDef.records) return;
+      let rKey = fDef.records.key;
+      if(!appData[currentView][rKey]) appData[currentView][rKey] = [];
+      
+      let newObj = {no: appData[currentView][rKey].length + 1};
+      fDef.records.fields.forEach(rf => { if(rf.key !== 'no') newObj[rf.key] = ''; });
+      appData[currentView][rKey].push(newObj);
+      saveData();
+      renderContent();
+    };
+
+    window.deleteRecord = function(idx){
+      if(!confirm('Yakin ingin menghapus baris data ini?')) return;
+      const fDef = FORMS[currentView];
+      let rKey = fDef.records.key;
+      appData[currentView][rKey].splice(idx, 1);
+      appData[currentView][rKey].forEach((r, i) => r.no = i + 1);
+      saveData();
+      renderContent();
+    };
+
+    function renderMatrixView(container){
+      container.innerHTML = `
+        <div class="panel">
+          <h3>Matriks Analisis Risiko (Form 6)</h3>
+          <div class="desc">Visualisasi pemetaan tingkat risiko berdasarkan perkalian skala Dampak dan Kemungkinan. Dihasilkan secara otomatis dari data analisis risiko.</div>
+          <div class="matrix-wrap">
+            <table class="matrix">
+              <tr>
+                <th style="width:120px;">Dampak / Kemungkinan</th>
+                <th>1 (Sangat Rendah)</th>
+                <th>2 (Rendah)</th>
+                <th>3 (Sedang)</th>
+                <th>4 (Tinggi)</th>
+                <th>5 (Sangat Tinggi)</th>
+              </tr>
+              ${[5,4,3,2,1].map(d => `
+                <tr>
+                  <td class="axis">Dampak ${d}</td>
+                  ${[1,2,3,4,5].map(k => {
+                    let lvl = getRiskLevel(d, k);
+                    let risks = getRisksByDK(d, k);
+                    return `<td class="cell lvl-${lvl.cls}">
+                      <div style="font-size:10px;font-weight:700;margin-bottom:4px;color:var(--muted)">Skor ${d*k} (${lvl.name})</div>
+                      ${risks.map(r => `<div class="chip" title="${r.risiko}"><b>${r.kode}</b></div>`).join('')}
+                    </td>`;
+                  }).join('')}
+                </tr>
+              `).join('')}
+            </table>
+          </div>
         </div>
-        <div class="clear"></div>
-      </div>
-    </body>
-    </html>
-  `);
-  win.document.close();
-  win.focus();
-  setTimeout(() => { win.print(); }, 500);
-});
-</script>
+      `;
+    }
+
+    function getRiskLevel(d, k){
+      let s = d * k;
+      if(s >= 20) return {name:'Sangat Tinggi', cls:'sangattinggi'};
+      if(s >= 15) return {name:'Tinggi', cls:'tinggi'};
+      if(s >= 10) return {name:'Sedang', cls:'sedang'};
+      return {name:'Rendah', cls:'rendah'};
+    }
+
+    function getRisksByDK(d, k){
+      let res = [];
+      if(appData.form4hasil && appData.form4hasil.records){
+        appData.form4hasil.records.forEach(r => {
+          if(Number(r.dampak) === d && Number(r.kemungkinan) === k) res.push(r);
+        });
+      }
+      return res;
+    }
+
+    function renderFgdView(container, fDef){
+      let fgd = appData.form4fgd;
+      if(!fgd) { container.innerHTML = '<div class="panel">Data FGD belum tersedia.</div>'; return; }
+      
+      container.innerHTML = `
+        <div class="panel">
+          <h3>${fDef.title}</h3>
+          <div class="desc">${fDef.desc}</div>
+          <div class="fgd-table-wrap">
+            <table class="fgd">
+              <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2" class="name-col">Nama Peserta / Unit</th>
+                ${Object.keys(fgd.peserta[0]?.scores || {}).map(k => `<th colspan="2">${k}</th>`).join('')}
+              </tr>
+              <tr>
+                ${Object.keys(fgd.peserta[0]?.scores || {}).map(() => `<th>D</th><th>K</th>`).join('')}
+              </tr>
+              ${fgd.peserta.map((p, pIdx) => `
+                <tr>
+                  <td>${p.no}</td>
+                  <td class="name-col">${p.nama}</td>
+                  ${Object.keys(p.scores).map(rk => `
+                    <td><input type="number" min="1" max="5" value="${p.scores[rk].D}" onchange="updateFgdScore(${pIdx}, '${rk}', 'D', this.value)"></td>
+                    <td><input type="number" min="1" max="5" value="${p.scores[rk].K}" onchange="updateFgdScore(${pIdx}, '${rk}', 'K', this.value)"></td>
+                  `).join('')}
+                </tr>
+              `).join('')}
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    window.updateFgdScore = function(pIdx, riskKey, type, val){
+      if(appData.form4fgd && appData.form4fgd.peserta[pIdx]){
+        appData.form4fgd.peserta[pIdx].scores[riskKey][type] = Number(val);
+        saveData();
+      }
+    };
+
+    document.getElementById('btnReset').addEventListener('click', ()=>{
+      if(!confirm('Muat ulang data awal aplikasi? Semua perubahan kustom akan kembali ke setelan default.')) return;
+      localStorage.removeItem('mkk_risk_sulteng_data');
+      appData = JSON.parse(JSON.stringify(RAW_DATA));
+      renderContent();
+      alert('Data berhasil dimuat ulang.');
+    });
+
+    document.getElementById('btnExport').addEventListener('click', ()=>{
+      if(typeof XLSX === 'undefined'){ alert('Pustaka Excel belum dimuat.'); return; }
+      let wb = XLSX.utils.book_new();
+      
+      Object.keys(FORMS).forEach(k => {
+        let f = FORMS[k];
+        if(f.records && appData[k] && appData[k].records){
+          let ws = XLSX.utils.json_to_sheet(appData[k].records);
+          XLSX.utils.book_append_sheet(wb, ws, f.code + ' ' + f.title.substring(0,20));
+        }
+      });
+
+      XLSX.writeFile(wb, 'M-KK_Risk_Sulawesi_Tengah_2026.xlsx');
+    });
+
+    document.getElementById('btnChangeLogo').addEventListener('click', ()=> document.getElementById('logoFileInput').click());
+    document.getElementById('logoFileInput').addEventListener('change', e=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt){
+        customLogo = evt.target.result;
+        localStorage.setItem('mkk_risk_sulteng_logo', customLogo);
+        updateLogoDisplay();
+        alert('Logo instansi berhasil diperbarui.');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
 </body>
 </html>
