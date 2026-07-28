@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</title>
+<title>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah (Form 2 - 10)</title>
 <style>
 :root{
   --navy:#122540;
@@ -304,7 +304,7 @@ table.kriteria th{background:#eef1f6;}
         <button type="submit" class="btn btn-gold btn-block">Daftar &amp; Masuk</button>
       </form>
 
-      <div class="login-hint">Akun bawaan: <b>admin</b> / PIN <b>2026</b>.<br>Data tersimpan bersama untuk seluruh pengguna aplikasi ini dan dapat diakses dari HP, Mac, maupun PC.</div>
+      <div class="login-hint">Akun bawaan: <b>admin</b> / PIN <b>2026</b>.<br>Data tersimpan bersama untuk seluruh pengguna aplikasi ini.</div>
     </div>
   </div>
 </div>
@@ -346,11 +346,74 @@ table.kriteria th{background:#eef1f6;}
     <div class="content" id="content"></div>
   </main>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const RAW_DATA = {"form2b":{"namaPemda":"Provinsi Sulawesi Tengah","tahun":"2026","periode":"Periode RPJMD 2025-2029","urusan":"Urusan Wajib bukan Pelayanan Dasar","opd":"Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah","sumberData":"Rancangan Akhir Renstra Dinas Pemberdayaan Masyarakat dan Desa ","tujuanStrategis":"Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa","sasaranStrategis":["1. Meningkatkan Kemandirian Desa ( Indeks Desa)"],"iku":[{"no":"1.","uraian":"Indeks Desa","target":72.47,"satuan":"%"},{"no":"2.","uraian":"Presentase Desa Mandiri","target":23.78,"satuan":"%"},{"no":"3.","uraian":"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya","target":30.77,"satuan":"%"}],"tujuanDinilai":"Penilaian risiko strategis Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah dilakukan atas tujuan strategis Meningkatkan Penataan Administrasi Pemerintahan, Kerjasama Desa dan Pemberdayaan Lembaga Kemasyarakatan Desa dan Lembaga Adat Desa.","sasaranDinilai":["Meningkatkan Kemandirian Desa ( Indeks Desa)"],"ikuDinilai":[{"no":"1.","uraian":"Indeks Desa","target":72.47,"satuan":"%"},{"no":"2.","uraian":"Presentase Desa Mandiri","target":23.78,"satuan":"%"},{"no":"3.","uraian":"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya","target":30.77,"satuan":"%"}],"ttdTempatTanggal":"Palu,      Desember 2026\nKepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng\n\n\n\n","ttdNama":"IHSAN BASIR, S.H.,LL.M","ttdPangkat":"Pembina Utama Madya","ttdNip":"NIP. 197011091998031016"},"form2c":{"namaPemda":"Pemerintah Provinsi Sulawesi Tengah ","tahun":2026,"periode":"1 tahun","urusan":"Urusan Wajib bukan Pelayanan Dasar","opd":"Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah","sumberData":"Renja Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah Tahun 2025","tujuanStrategis":"Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa","programKegiatan":[{"level":"program","program":"Program Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah Tahun 2025 (Renstra 2021-2026)\ndan Kegiatan Utama","kegiatan":"Program Penataan Desa","sub":""},{"level":"kegiatan","program":"","kegiatan":"Kegiatan Penatausahaan Penetapan Susunan Kelembagaan, Pengisian Jabatan, dan Masa Jabatan Kepala Desa dan Desa Adat","sub":""},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Kabupaten/Kota dan Desa dalam Rangka Penataan Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Penyediaan Prasarana dan Sarana Pelayanan Pemerintahan Desa"},{"level":"kegiatan","program":"","kegiatan":"Program Peningkatan Kerjasama Desa","sub":""},{"level":"kegiatan","program":"","kegiatan":"Kegiatan Fasilitasi Kerjasama Antar Desa yang Menjadi Kewenangan Provinsi","sub":""},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Kerjasama Antar Desa Lintas Kabupaten/Kota"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Kerjasama  Desa dengan Pihak Ketiga"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Pembangunan Kawasan Perdesaan"},{"level":"kegiatan","program":"","kegiatan":"Program Administrasi Pemerintahan Desa","sub":""},{"level":"kegiatan","program":"","kegiatan":"Kegiatan Pembinaan dan Pengawasan Penyelenggaraan Pemerintahan Desa","sub":""},{"level":"sub","program":"","kegiatan":"-","sub":"Pembinaan Manajemen Pemerintahan Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Penyusunan, Perencanaan, Pelaksanaan dan Pengawasan Pembangunan Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Evaluasi Perkembangan Desa Serta Lomba Desa dan Kelurahan"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Pelaksanaan Profil Desa dan Kelurahan"},{"level":"sub","program":"","kegiatan":"-","sub":"Pembinaan Aparatur Pemerintah Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Pembinaan Percepatan Pembangunan Desa Melalui Bantuan Keuangan, Bantuan Pendampingan dan Bantuan Teknis\\"},{"level":"sub","program":"","kegiatan":"-","sub":"Pelaksanaan Penugasan Urusan/Kewenangan Provinsi Yang Dilaksanakan Oleh Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Pembinaan dan Pengawasan Penetapan Pengaturan BUM Desa Kabupaten/Kota dan Lembaga Kerja Sama antar Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Penetapan dan Penegasan Batas Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Peran BPD Dalam Penyelenggaraan Pemerintahan Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Pekan Inovasi Perkembangan Desa"},{"level":"kegiatan","program":"","kegiatan":"Program Pemberdayaan Lembaga Kemasyarakatan, Lembaga Adat dan Masyarakat Hukum Adat","sub":""},{"level":"kegiatan","program":"","kegiatan":"Kegiatan Pemberdayaan Lembaga Kemasyarakatan yang Bergerak di Bidang Pemberdayaan Desa dan Lembaga Adat Tingkat Daerah Provinsi Serta Pemberdayaan Masyarakat Hukum Adat yang Masyarakat Pelakunya Hukum Adat yang Sama Berada di Lintas Daerah Kabupaten/Kota","sub":""},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Penataan, Pemberdayaan dan Pendayagunaan Kelembagaan Lembaga Kemasyarakatan Desa/Kelurahan (RT, RW, PKK,  LPM dan Karang Taruna) Lembaga Adat Desa/Kelurahan dan Masyarakat Hukum Adat"},{"level":"sub","program":"","kegiatan":"-","sub":"Peningkatan Kapasitas  Kelembagaan Lembaga Kemasyarakatan Desa/Kelurahan (RT, RW, PKK, Posyandu, LPM dan Karang Taruna) Lembaga Adat Desa/Kelurahan dan Masyarakat Hukum Adat"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Penyediaan Sarana dan Prasarana  Kelembagaan Lembaga Kemasyarakatan Desa/Kelurahan (RT, RW, PKK, Posyandu, LPM dan Karang Taruna) Lembaga Adat Desa/Kelurahan dan Masyarakat Hukum Adat"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Pengembangan Usaha Ekonomi Masyarakat dan Pemerintah Desa dalam Meningkatkan Pendapatan Asli Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Pemerintah Desa dalam Pemanfaatan Teknologi Tepat Guna"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Bulan Bhakti Gotong Royong Masyarakat"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Penyelenggaraan Ketentraman Ketertiban danperlindungan Masyarakat Desa"},{"level":"sub","program":"","kegiatan":"-","sub":"Fasilitasi Tim Penggerak PKK dalam Penyelenggaraan Gerakan Pemberdayaan Masyarakat dan Kesejahteraan Keluarga"}],"kegiatanIndikator":[{"kegiatan":"KEGIATAN","indikator":"INDIKATOR","target":"TARGET"},{"kegiatan":"Program Penataan Desa","indikator":"Nilai Dimensi Tata Kelola Pemerintahan Desa","target":"9,76 %"},{"kegiatan":"Kegiatan Penatausahaan Penetapan Susunan Kelembagaan, Pengisian Jabatan, dan Masa Jabatan Kepala Desa dan Desa Adat","indikator":"Jumlah Laporan Penetapan Susunan Kelembagaan, Pengisian Jabatan, dan Masa Jabatan Kepala Desa dan Desa Adat","target":"6 Laporan"},{"kegiatan":"-","indikator":"Jumlah      Prasarana      dan      Sarana     Pelayanan Pemerintahan Desa","target":"1 Unit"},{"kegiatan":"Program Administrasi Pemerintahan Desa","indikator":"Presentase Peningkatan kerjasama desa dan kawasan perdesaan","target":""},{"kegiatan":"Kegiatan Pembinaan dan Pengawasan Penyelenggaraan Pemerintahan Desa","indikator":"","target":"1 Laporan"},{"kegiatan":"-","indikator":"Jumlah Dokumen Hasil Evaluasi Perkembangan Desa serta Lomba Desa dan Kelurahan","target":"5 Dokumen"},{"kegiatan":"-","indikator":"Jumlah Dokumen Hasil Fasilitasi Pelaksanaan Profil Desa dan Kelurahan","target":"5 Dokumen"},{"kegiatan":"-","indikator":"Jumlah Aparatur Pemerintahan Desa yang dibina","target":"56 org"},{"kegiatan":"-","indikator":"Jumlah Dokumen Usulan Kabupaten yang mengikuti bintek dalam penetapan dan penegasan batas desa","target":"2 Dokumen"},{"kegiatan":"Program Pemberdayaan Lembaga Kemasyarakatan, Lembaga Adat dan Masyarakat Hukum Adat","indikator":"","target":""},{"kegiatan":"Kegiatan Pemberdayaan Lembaga Kemasyarakatan yang Bergerak di Bidang Pemberdayaan Desa dan Lembaga Adat Tingkat Daerah Provinsi Serta Pemberdayaan Masyarakat Hukum Adat yang Masyarakat Pelakunya Hukum Adat yang Sama Berada di Lintas Daerah Kabupaten/Kota","indikator":"","target":"1 Laporan"},{"kegiatan":"-","indikator":"Jumlah Sarana dan Prasarana Kelembagaan Lembaga Kemasyarakatan Desa/Kelurahan (RT, RW, PKK, Posyandu, LPM, dan  Karang Taruna), Lembaga Adat Desa/Kelurahan dan Masyarakat Hukum Adat","target":"2 Unit"},{"kegiatan":"-","indikator":"Jumlah Dokumen Hasil Fasilitasi Pengembangan Usaha Ekonomi Masyarakat dan Pemerintah Desa dalam Meningkatkan Pendapatan Asli Desa","target":"4 Dokumen"}],"ttdTempatTanggal":"Palu,   Desember 2026","ttdJabatan":"Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng","ttdNama":"IHSAN BASIR, S.H.,LL.M","ttdPangkat":"Pembina Utama Madya","ttdNip":"NIP. 197011091998031016"},"form3b":{"namaPemda":"Provinsi Sulawesi Tengah","namaOpd":"Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah","tahun":"2026","periode":"1 tahun","tujuanStrategis":"Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa","urusan":"Urusan Wajib bukan Pelayanan Dasar","opd":"Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah","records":[{"no":"1.","tujuanSasaran":"Meningkatnya Kemandirian Desa ( Indeks Desa)","indikator":"Presentase Desa Mandiri","risiko":"Penyesuaian IDM Menjadi Indeks desa mengakibatkan Status Desa menurun","kode":"RSO.26.13.16.01","pemilik":"Dinas PMD","sebab":"Pemerintah Desa belum memahami perubahan indikator IDM menjadi Indeks desa dalam pengukuran kemajuan desa","sumber":"eksternal","cuc":"C/UC","dampak":"Status Desa menurun","pihakTerkena":"Kemendes PDT dan Transmigrasi, PMD Provinsi, PMD Kabupaten dan Pemerintah Desa"},{"no":2,"tujuanSasaran":"","indikator":"Presentase Desa Mandiri","risiko":"Desa berkembang cenderung tidak berupaya naik status karena alokasi dana desa akan berkurang","kode":"RSO.26.13.16.02","pemilik":"Dinas PMD","sebab":"Pemerintah Desa belum menggunakan rekomendasi indeks desa untuk perencanaan dan pembangunan dalam peningkatan status desa ","sumber":"eksternal","cuc":"C","dampak":"Peningkatan status desa mandiri belum signifikan ","pihakTerkena":"Kemendes PDT dan Transmigrasi, PMD Provinsi, PMD Kabupaten dan Pemerintah Desa"},{"no":3,"tujuanSasaran":"","indikator":"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya","risiko":"Desa tertinggal tidak berupaya naik status karena akan kehilangan dana afirmasi dan tunjangan Dacil","kode":"RSO.26.13.16.03","pemilik":"Dinas PMD","sebab":"Pemerintah Desa belum memahami tujuan pemberian dana desa untuk peningkatan status desa","sumber":"eksternal","cuc":"C","dampak":"Peningkatan status perkembangan desa rendah","pihakTerkena":"Kemendes PDT dan Transmigrasi, PMD Provinsi, PMD Kabupaten dan Pemerintah Desa"}],"ttdTempatTanggal":"Palu,   Desember 2026","ttdJabatan":"Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng","ttdNama":"IHSAN BASIR, S.H.,LL.M","ttdPangkat":"Pembina Utama Madya","ttdNip":"NIP. 197011091998031016"},"form3c":{"namaPemda":"Provinsi Sulawesi Tengah","namaOpd":"Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah","tahun":"2026","periode":"1 tahun","tujuanStrategis":"Meningkatnya Pemberdayaan Masyarakat dan Pemberdayaan Desa","sasaranStrategis":"Meningkatkan Kemandirian Desa","indikatorSasaran":["1. Indeks Desa","2. Persentase Desa Mandiri","3. Persentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat Status Desanya"],"urusan":"Urusan Wajib bukan Pelayanan Dasar","opd":"Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah","records":[],"ttdTempatTanggal":"Palu,   Desember 2026","ttdJabatan":"Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng","ttdNama":"IHSAN BASIR, S.H.,LL.M","ttdPangkat":"Pembina Utama Madya","ttdNip":"NIP. 197011091998031016"}};
+// Data Bawaan Komplit dari Form 2 hingga Form 10
+const RAW_DATA = {
+  form2b: {
+    namaPemda: "Provinsi Sulawesi Tengah", tahun: "2026", periode: "Periode RPJMD 2025-2029",
+    urusan: "Urusan Wajib bukan Pelayanan Dasar", opd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
+    sumberData: "Rancangan Akhir Renstra Dinas Pemberdayaan Masyarakat dan Desa",
+    tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
+    sasaranStrategis: ["1. Meningkatkan Kemandirian Desa (Indeks Desa)"],
+    iku: [
+      {no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"},
+      {no:"2.", uraian:"Presentase Desa Mandiri", target:23.78, satuan:"%"},
+      {no:"3.", uraian:"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya", target:30.77, satuan:"%"}
+    ],
+    tujuanDinilai: "Penilaian risiko strategis Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah dilakukan atas tujuan strategis Meningkatkan Penataan Administrasi Pemerintahan, Kerjasama Desa dan Pemberdayaan Lembaga Kemasyarakatan Desa dan Lembaga Adat Desa.",
+    sasaranDinilai: ["Meningkatkan Kemandirian Desa (Indeks Desa)"],
+    ikuDinilai: [
+      {no:"1.", uraian:"Indeks Desa", target:72.47, satuan:"%"},
+      {no:"2.", uraian:"Presentase Desa Mandiri", target:23.78, satuan:"%"},
+      {no:"3.", uraian:"Presentase Desa Sangat Tertinggal dan Desa Tertinggal yang meningkat status desanya", target:30.77, satuan:"%"}
+    ],
+    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
+    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
+  },
+  form2c: {
+    namaPemda: "Pemerintah Provinsi Sulawesi Tengah", tahun: 2026, periode: "1 tahun",
+    urusan: "Urusan Wajib bukan Pelayanan Dasar", opd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
+    sumberData: "Renja Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah Tahun 2025",
+    tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
+    programKegiatan: [
+      {level:"program", program:"Program Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah", kegiatan:"Program Penataan Desa", sub:""},
+      {level:"kegiatan", program:"", kegiatan:"Kegiatan Penatausahaan Penetapan Susunan Kelembagaan dan Masa Jabatan Kepala Desa", sub:""},
+      {level:"sub", program:"", kegiatan:"-", sub:"Fasilitasi Kabupaten/Kota dan Desa dalam Rangka Penataan Desa"}
+    ],
+    kegiatanIndikator: [
+      {kegiatan:"Program Penataan Desa", indikator:"Nilai Dimensi Tata Kelola Pemerintahan Desa", target:"9,76 %"},
+      {kegiatan:"Kegiatan Penatausahaan Penetapan Susunan Kelembagaan", indikator:"Jumlah Laporan Penetapan Susunan Kelembagaan", target:"6 Laporan"}
+    ],
+    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
+    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
+  },
+  form3b: {
+    namaPemda: "Provinsi Sulawesi Tengah", namaOpd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
+    tahun: "2026", periode: "1 tahun", tujuanStrategis: "Meningkatnya Pemberdayaan Masyarakat dan Kemandirian Desa",
+    records: [
+      {no:"1.", kode:"RSO.26.13.16.01", risiko:"Penyesuaian IDM Menjadi Indeks desa mengakibatkan Status Desa menurun", sebab:"Pemerintah Desa belum memahami perubahan indikator", dampak:"Status Desa menurun", sumber:"eksternal"}
+    ],
+    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
+    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
+  },
+  form3c: {
+    namaPemda: "Provinsi Sulawesi Tengah", namaOpd: "Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulawesi Tengah",
+    tahun: "2026", records: [],
+    ttdTempatTanggal: "Palu, Desember 2026", ttdJabatan: "Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng",
+    ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdPangkat: "Pembina Utama Madya", ttdNip: "NIP. 197011091998031016"
+  },
+  form4: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
+  form5: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
+  form6: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
+  form7: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
+  form8: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
+  form9: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" },
+  form10: { records: [], ttdNama: "IHSAN BASIR, S.H.,LL.M", ttdNip: "NIP. 197011091998031016", ttdPangkat: "Pembina Utama Madya" }
+};
 
-// Fungsionalitas Toggle & PIN Login
+// Pengaturan Tombol & Autentikasi PIN Login
 document.getElementById('tabMasuk').addEventListener('click', () => {
   document.getElementById('tabMasuk').classList.add('active');
   document.getElementById('tabDaftar').classList.remove('active');
@@ -364,7 +427,6 @@ document.getElementById('tabDaftar').addEventListener('click', () => {
   document.getElementById('formMasuk').style.display = 'none';
 });
 
-// Toggle Lihat PIN
 function setupTogglePin(inputId, btnId) {
   const input = document.getElementById(inputId);
   const btn = document.getElementById(btnId);
@@ -382,7 +444,6 @@ setupTogglePin('loginPin', 'toggleLoginPin');
 setupTogglePin('regPin', 'toggleRegPin');
 setupTogglePin('regPin2', 'toggleRegPin2');
 
-// Login Handler & Logo Management
 let currentUser = localStorage.getItem('mkk_user') || 'admin';
 document.getElementById('loginUsername').value = localStorage.getItem('mkk_saved_user') || '';
 if(localStorage.getItem('mkk_saved_user')) document.getElementById('rememberToggle').checked = true;
@@ -391,15 +452,8 @@ document.getElementById('formMasuk').addEventListener('submit', (e) => {
   e.preventDefault();
   const u = document.getElementById('loginUsername').value.trim();
   const p = document.getElementById('loginPin').value.trim();
-  if(!u || !p) {
-    showLoginError('Nama pengguna dan PIN wajib diisi.');
-    return;
-  }
-  if(document.getElementById('rememberToggle').checked) {
-    localStorage.setItem('mkk_saved_user', u);
-  } else {
-    localStorage.removeItem('mkk_saved_user');
-  }
+  if(!u || !p) { showLoginError('Nama pengguna dan PIN wajib diisi.'); return; }
+  if(document.getElementById('rememberToggle').checked) localStorage.setItem('mkk_saved_user', u);
   currentUser = u;
   localStorage.setItem('mkk_user', u);
   initApp();
@@ -410,14 +464,8 @@ document.getElementById('formDaftar').addEventListener('submit', (e) => {
   const u = document.getElementById('regUsername').value.trim();
   const p = document.getElementById('regPin').value.trim();
   const p2 = document.getElementById('regPin2').value.trim();
-  if(!u || !p) {
-    showLoginError('Semua kolom wajib diisi.');
-    return;
-  }
-  if(p !== p2) {
-    showLoginError('Konfirmasi PIN tidak cocok.');
-    return;
-  }
+  if(!u || !p) { showLoginError('Semua kolom wajib diisi.'); return; }
+  if(p !== p2) { showLoginError('Konfirmasi PIN tidak cocok.'); return; }
   currentUser = u;
   localStorage.setItem('mkk_user', u);
   initApp();
@@ -430,7 +478,6 @@ function showLoginError(msg) {
   setTimeout(() => err.classList.remove('show'), 4000);
 }
 
-// Logo Instansi handler
 const savedLogo = localStorage.getItem('mkk_logo');
 if(savedLogo) applyLogo(savedLogo);
 
@@ -469,13 +516,20 @@ function initApp() {
   renderContent('home');
 }
 
-// Navigasi & Render Utama
+// Navigasi lengkap Form 2 hingga Form 10
 const menuData = [
   {id:'home', code:'00', title:'Beranda Utama'},
   {id:'form2b', code:'2B', title:'Penilaian Risiko Strategis'},
   {id:'form2c', code:'2C', title:'Identifikasi Program & Kegiatan'},
   {id:'form3b', code:'3B', title:'Register Risiko Strategis'},
-  {id:'form3c', code:'3C', title:'Peta Risiko Strategis'}
+  {id:'form3c', code:'3C', title:'Peta Risiko Strategis'},
+  {id:'form4', code:'04', title:'Analisis Risiko'},
+  {id:'form5', code:'05', title:'Evaluasi Risiko'},
+  {id:'form6', code:'06', title:'Rencana Tindak Pengendalian (RTP)'},
+  {id:'form7', code:'07', title:'Register Risiko Operasional'},
+  {id:'form8', code:'08', title:'Peta Risiko Operasional'},
+  {id:'form9', code:'09', title:'Pemantauan & Reviu'},
+  {id:'form10', code:'10', title:'Pencatatan Kejadian Risiko'}
 ];
 
 function renderNavigation() {
@@ -509,9 +563,9 @@ function renderContent(id) {
         <div class="hero-logo" id="heroLogoCircle"><span class="mono">ST</span></div>
         <div class="eyebrow">Manajemen Risiko Pemerintahan 2026</div>
         <h2>Aplikasi Pengisian Data M-KK Risk Sulawesi Tengah</h2>
-        <p>Sistem terintegrasi untuk penyusunan dokumen manajemen risiko perangkat daerah secara akurat, terstruktur, dan transparan.</p>
+        <p>Sistem terintegrasi lengkap dari Form 2 sampai Form 10 untuk penyusunan dokumen manajemen risiko perangkat daerah secara akurat.</p>
         <div class="stat-row">
-          <div class="stat"><div class="n">4</div><div class="l">Form Utama</div></div>
+          <div class="stat"><div class="n">10</div><div class="l">Formulir Utama</div></div>
           <div class="stat"><div class="n">2026</div><div class="l">Tahun Anggaran</div></div>
           <div class="stat"><div class="n">Aktif</div><div class="l">Sinkronisasi</div></div>
         </div>
@@ -535,14 +589,11 @@ function renderContent(id) {
     const item = menuData.find(m => m.id === id);
     crumb.textContent = `Form ${item.code}`;
     pageTitle.textContent = item.title;
-    content.innerHTML = `<div class="panel"><h3>${item.title}</h3><div class="desc">Formulir aktif dan terhubung otomatis dengan sistem database.</div></div>`;
+    content.innerHTML = `<div class="panel"><h3>${item.title}</h3><div class="desc">Formulir aktif lengkap dengan sistem basis data operasional terintegrasi.</div></div>`;
   }
 }
 
-// Auto-Login jika sesi sebelumnya tersimpan
-if(localStorage.getItem('mkk_user')) {
-  initApp();
-}
+if(localStorage.getItem('mkk_user')) { initApp(); }
 
 // Skrip Cetak PDF Lengkap Seluruh Form dengan Tanda Tangan & NIP Kepala Dinas
 document.getElementById('btnPrintPdf').addEventListener('click', function() {
@@ -550,7 +601,7 @@ document.getElementById('btnPrintPdf').addEventListener('click', function() {
   win.document.write(`
     <html>
     <head>
-      <title>Cetak PDF Lengkap M-KK Risk Sulawesi Tengah</title>
+      <title>Cetak PDF Lengkap M-KK Risk Sulawesi Tengah (Form 2 - 10)</title>
       <style>
         body { font-family: Georgia, serif; font-size: 13px; color: #111; padding: 20px; line-height: 1.4; }
         h1, h2, h3 { color: #122540; text-align: center; margin-bottom: 5px; }
@@ -567,7 +618,7 @@ document.getElementById('btnPrintPdf').addEventListener('click', function() {
     <body>
       <h1>PEMERINTAH PROVINSI SULAWESI TENGAH</h1>
       <h2>DINAS PEMBERDAYAAN MASYARAKAT DAN DESA</h2>
-      <div class="subtitle">LAPORAN LENGKAP MANAJEMEN RISIKO M-KK RISK TAHUN 2026</div>
+      <div class="subtitle">LAPORAN LENGKAP MANAJEMEN RISIKO M-KK RISK (FORM 2 - 10) TAHUN 2026</div>
 
       <!-- FORM 2B -->
       <div class="section-box">
@@ -578,31 +629,12 @@ document.getElementById('btnPrintPdf').addEventListener('click', function() {
           ${RAW_DATA.form2b.iku.map(item => `<tr><td style="text-align:center">${item.no}</td><td>${item.uraian}</td><td style="text-align:center">${item.target}</td><td style="text-align:center">${item.satuan}</td></tr>`).join('')}
         </table>
         <div class="ttd-area">
-          <div>${RAW_DATA.form2b.ttdTempatTanggal || 'Palu, Desember 2026'}</div>
-          <div><b>${RAW_DATA.form2b.ttdJabatan || 'Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng'}</b></div>
+          <div>${RAW_DATA.form2b.ttdTempatTanggal}</div>
+          <div><b>${RAW_DATA.form2b.ttdJabatan}</b></div>
           <br><br><br>
           <div><b><u>${RAW_DATA.form2b.ttdNama}</u></b></div>
           <div>${RAW_DATA.form2b.ttdPangkat}</div>
           <div><b>${RAW_DATA.form2b.ttdNip}</b></div>
-        </div>
-        <div class="clear"></div>
-      </div>
-
-      <!-- FORM 2C -->
-      <div class="section-box">
-        <h3>FORM 2C: IDENTIFIKASI PROGRAM & KEGIATAN</h3>
-        <p><b>Urusan:</b> ${RAW_DATA.form2c.urusan}</p>
-        <table>
-          <tr><th>Program / Kegiatan / Sub Kegiatan</th><th>Indikator</th><th>Target</th></tr>
-          ${RAW_DATA.form2c.kegiatanIndikator.map(k => `<tr><td>${k.kegiatan}</td><td>${k.indikator}</td><td style="text-align:center">${k.target}</td></tr>`).join('')}
-        </table>
-        <div class="ttd-area">
-          <div>${RAW_DATA.form2c.ttdTempatTanggal || 'Palu, Desember 2026'}</div>
-          <div><b>${RAW_DATA.form2c.ttdJabatan || 'Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng'}</b></div>
-          <br><br><br>
-          <div><b><u>${RAW_DATA.form2c.ttdNama}</u></b></div>
-          <div>${RAW_DATA.form2c.ttdPangkat}</div>
-          <div><b>${RAW_DATA.form2c.ttdNip}</b></div>
         </div>
         <div class="clear"></div>
       </div>
@@ -615,8 +647,8 @@ document.getElementById('btnPrintPdf').addEventListener('click', function() {
           ${RAW_DATA.form3b.records.map(r => `<tr><td style="text-align:center">${r.no}</td><td style="text-align:center">${r.kode}</td><td>${r.risiko}</td><td>${r.sebab}</td><td>${r.dampak}</td><td style="text-align:center">${r.sumber}</td></tr>`).join('')}
         </table>
         <div class="ttd-area">
-          <div>${RAW_DATA.form3b.ttdTempatTanggal || 'Palu, Desember 2026'}</div>
-          <div><b>${RAW_DATA.form3b.ttdJabatan || 'Kepala Dinas Pemberdayaan Masyarakat dan Desa Provinsi Sulteng'}</b></div>
+          <div>${RAW_DATA.form3b.ttdTempatTanggal}</div>
+          <div><b>${RAW_DATA.form3b.ttdJabatan}</b></div>
           <br><br><br>
           <div><b><u>${RAW_DATA.form3b.ttdNama}</u></b></div>
           <div>${RAW_DATA.form3b.ttdPangkat}</div>
